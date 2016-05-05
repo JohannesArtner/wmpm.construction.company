@@ -25,4 +25,13 @@ public class ProjectManager extends Employee {
     public void setSpecialization(SpecializationType specialization) {
         this.specialization = specialization;
     }
+
+    @Override
+    public String toString() {
+
+        return "ProjectManager{" +
+                super.toString() +
+                "specialization=" + specialization +
+                '}';
+    }
 }
