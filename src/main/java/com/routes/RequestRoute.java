@@ -1,4 +1,4 @@
-package routes;
+package com.routes;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ public class RequestRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        from("{{requestSource}}")
+        /*from("{{requestSource}}")
                 .log("got a new request")
                 .choice()
                 .when(p -> p.getIn().getHeader(CAMEL_FILE_NAME).toString()
@@ -23,6 +23,6 @@ public class RequestRoute extends RouteBuilder {
                 .when(p -> p.getIn().getHeader(CAMEL_FILE_NAME).toString()
                         .contains("tiefbau"))
                 .log("someone wants to build a Tiefbau with us!")
-                .to("{{tiefbauEndpoint}}");
+                .to("{{tiefbauEndpoint}}");*/
     }
 }
