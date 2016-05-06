@@ -21,13 +21,13 @@ import java.util.List;
  * Created by rudolfplettenberg on 05.05.16.
  */
 @Service
-public class EmployeeDBService {
+public class EmployeeDAO {
     @Autowired
     SalesmanRepository salesmanRepository;
     @Autowired
     ProjectManagerRepository projectManagerRepository;
 
-    public EmployeeDBService() {
+    public EmployeeDAO() {
     }
 
     //
