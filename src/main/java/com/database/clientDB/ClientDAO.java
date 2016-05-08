@@ -1,4 +1,4 @@
-package com.database;
+package com.database.clientDB;
 
 import com.database.clientDB.model.Client;
 import com.database.clientDB.repository.ClientRepository;

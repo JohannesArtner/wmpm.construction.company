@@ -1,4 +1,4 @@
-package com.database;
+package com.database.employeeDB;
 
 import com.database.employeeDB.model.Employee;
 import com.database.employeeDB.model.ProjectManager;
