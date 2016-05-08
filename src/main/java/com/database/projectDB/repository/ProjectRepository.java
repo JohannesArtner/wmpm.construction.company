@@ -12,6 +12,6 @@ import java.util.List;
 public interface ProjectRepository extends MongoRepository<Project, String> {
 
     public List<Project> findByClientId(long clientId);
-    public List<Project> findByProjectManager(long projectManagerId);
+    public List<Project> findByProjectManagerId(long projectManagerId);
     public List<Project> findByProjectStatus(ProjectStatus projectStatus);
 }

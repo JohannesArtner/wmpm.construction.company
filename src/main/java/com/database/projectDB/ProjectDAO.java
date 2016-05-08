@@ -38,8 +38,8 @@ public class ProjectDAO {
         return projectRepository.findByClientId(clientId);
     }
 
-    public List<Project> findByProjectManager(long projectManagerId){
-        return projectRepository.findByProjectManager(projectManagerId);
+    public List<Project> findByProjectManagerId(long projectManagerId){
+        return projectRepository.findByProjectManagerId(projectManagerId);
     }
 
     public List<Project> findByProjectStatus(ProjectStatus projectStatus){
