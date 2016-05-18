@@ -1,10 +1,10 @@
 package com;
-import model.ClientRequest;
+import com.model.ClientRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import services.ClientRequestService;
+import com.services.ClientRequestService;
 
 import java.util.Date;
 
