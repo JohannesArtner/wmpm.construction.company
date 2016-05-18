@@ -1,5 +1,5 @@
 package com;
-import com.model.ClientRequest;
+import com.database.projectDB.model.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +24,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String ... args){
-        ClientRequest request = new ClientRequest("Max", "Mustermann", "max@muster.at", "Musterstraße 18/2, 1010 Wien", "Ich will ein neues Haus bauen!", new Date(), new Date());
+        Request request = new Request();
 
         clientRequestService.createNewRequest(request);
     }
