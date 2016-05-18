@@ -38,8 +38,8 @@ public class Application implements CommandLineRunner {
     private CamelContext camel;
 
     @Override
-    public void run(String ... args)throws Exception {
-       // ClientRequest request = new ClientRequest("Max", "Mustermann", "max@muster.at", "Musterstraße 18/2, 1010 Wien", "Ich will ein neues Haus bauen!", new Date(), new Date());
+    public void run(String ... args){
+        ClientRequest request = new ClientRequest("Max", "Mustermann", "max@muster.at", "Musterstraße 18/2, 1010 Wien", "Ich will ein neues Haus bauen!", new Date(), new Date());
 
         // create the camel context that is the "heart" of Camel
         camel = new DefaultCamelContext();
@@ -55,5 +55,4 @@ public class Application implements CommandLineRunner {
 
        // clientRequestService.createNewRequest(request);
     }
-
 }
