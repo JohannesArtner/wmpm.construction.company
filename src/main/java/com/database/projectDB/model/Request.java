@@ -19,6 +19,15 @@ public class Request {
     private Date dateFrom;
     private Date dateTo;
     private String location;
+    private Double squaremeters;
+
+    public Double getSquaremeters() {
+        return squaremeters;
+    }
+
+    public void setSquaremeters(Double squaremeters) {
+        this.squaremeters = squaremeters;
+    }
 
     public Request() {
     }

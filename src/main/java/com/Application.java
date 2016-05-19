@@ -1,15 +1,11 @@
 package com;
 import com.database.projectDB.model.Request;
-import com.routes.IntegrationNormalizer;
-import org.apache.camel.impl.DefaultCamelContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import com.services.ClientRequestService;
+import com.services.RequestService;
 import org.apache.camel.*;
-
-import java.util.Date;
 
 /**
  * Created by mionisation on 4/27/16.
@@ -19,7 +15,7 @@ import java.util.Date;
 public class Application implements CommandLineRunner {
 
     @Autowired
-    private ClientRequestService clientRequestService;
+    private RequestService clientRequestService;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class);

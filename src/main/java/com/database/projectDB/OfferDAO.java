@@ -3,12 +3,14 @@ package com.database.projectDB;
 import com.database.projectDB.model.Offer;
 import com.database.projectDB.repository.OfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by rudolfplettenberg on 08.05.16.
  */
+@Service
 public class OfferDAO {
     @Autowired
     OfferRepository offerRepository;
