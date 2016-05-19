@@ -25,12 +25,13 @@ public class Application implements CommandLineRunner {
     private CamelContext camelContext;
 
     @Override
-    public void run(String ... args){
-        Request request = new Request();
+    public void run(String ... args) throws Exception {
 
-        //clientRequestService.createNewRequest(request);
-
-
+        try {
+            ProducerTemplate template = camelContext.createProducerTemplate();
+        } finally {
+            camelContext.stop();
+        }
 
     }
 }

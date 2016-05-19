@@ -1,7 +1,7 @@
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\database\projectDB\OfferDAO.java
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\database\employeeDB\repository\SalesmanRepository.java
+C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\services\RequestService.java
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\database\projectDB\repository\OfferRepository.java
-C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\model\ClientRequest.java
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\Beans\TransformationBean.java
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\database\clientDB\model\Client.java
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\database\projectDB\model\Project.java
@@ -20,7 +20,6 @@ C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\Const
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\database\projectDB\repository\RequestRepository.java
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\database\projectDB\model\Request.java
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\routes\RequestRoute.java
-C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\services\ClientRequestService.java
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\routes\WireTapNewClients.java
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\database\employeeDB\model\Salesman.java
 C:\Users\Johannes\OneDrive\TU_WIEN\MASTER\BusinessIntelligence\Assignment2\ConstructionCompany\src\main\java\com\Processors\LoggingProcessor.java

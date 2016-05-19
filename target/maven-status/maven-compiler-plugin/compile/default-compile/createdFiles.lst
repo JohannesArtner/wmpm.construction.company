@@ -15,11 +15,10 @@ com\database\clientDB\repository\ClientRepository.class
 com\routes\ConstructionDecision.class
 com\routes\RequestRoute.class
 com\database\projectDB\RequestDAO.class
-com\model\ClientRequest.class
 com\database\employeeDB\repository\SalesmanRepository.class
-com\services\ClientRequestService.class
 com\Application.class
 com\database\employeeDB\EmployeeDAO.class
+com\services\RequestService.class
 com\database\projectDB\model\Offer.class
 com\routes\IntegrationRoute.class
 com\Processors\LoggingProcessor.class

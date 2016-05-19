@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by VanHelsing on 17.05.2016.
  */
-@Component
+
 public class IntegrationNormalizer extends RouteBuilder {
 
     @Override
