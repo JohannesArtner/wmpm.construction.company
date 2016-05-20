@@ -30,7 +30,8 @@ public class Application implements CommandLineRunner {
         try {
             ProducerTemplate template = camelContext.createProducerTemplate();
         } finally {
-            camelContext.stop();
+            //Not stopping Camelcontext so that outes stay alive and Rest can be tested
+            //camelContext.stop();
         }
 
     }
