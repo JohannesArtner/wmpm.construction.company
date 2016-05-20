@@ -2,7 +2,6 @@ package com.routes.requestInput.routes;
 
 import com.routes.requestInput.model.RestFormInputModel;
 import com.routes.requestInput.processor.RequestValidationProcessor;
-import com.routes.stubs.rest.User;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -40,9 +39,6 @@ public class RouteRestFormInput extends RouteBuilder {
         rest("/request").description("Request rest service")
                 .consumes("application/json").produces("application/json")
 
-                .get("/findAll").description("Find all users").outTypeList(User.class)
-                .responseMessage().code(200).message("All users").endResponseMessage()
-                .to("bean:userService?method=listUsers")
 
                 .post().description("Post request").type(RestFormInputModel.class)
                 .param().name("body").type(body).description("The form input of a request").endParam()
