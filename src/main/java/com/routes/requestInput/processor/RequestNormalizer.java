@@ -30,7 +30,7 @@ public class RequestNormalizer {
         request.setDateTo(restFormInputModel.getDateTo());
         request.setDescription(restFormInputModel.getDescription());
         request.setSpecializationType(restFormInputModel.getSpecializationType());
-        request.setSquaremeter(restFormInputModel.getSquaremeter());
+        request.setSquaremeters(restFormInputModel.getSquaremeter());
 
         Client client = new Client();
         client.setClientFirstname(restFormInputModel.getClientFirstname());
