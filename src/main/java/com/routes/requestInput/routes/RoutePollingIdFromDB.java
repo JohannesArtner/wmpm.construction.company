@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by rudolfplettenberg on 19.05.16.
+ * Created by Daniel Wailzer
  */
 @Component
 public class RoutePollingIdFromDB extends RouteBuilder {
@@ -15,19 +15,20 @@ public class RoutePollingIdFromDB extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        logger.info("Rout from Normalizer to Database");
-        from("seda:requestNormalizerQueue")
-                .log("Starting normalization")
+        logger.info("Route for Polling ID from DB");
+        from("direct:fromRequest")
+                .log("Getting Request from Form")
+                //.filter()
+                .process(DatabaseGetIDProcessor) //Returns Message + Offset
                 .choice()
-                .when(header("origin").isEqualTo("form"))
-                    .log("Form origin detected")
+                .when(body().contains("ALREADY_EXISTS"))
+                    .log("found client")
                     .to("bean:requestNormalizer?method=formToRequest")
-                .when(header("origin").isEqualTo("email"))
-                    .log("Email origin detected")
+                .when(body().contains("CREATE_NEW"))
+                    .log("new client")
                     .to("bean:requestNormalizer?method=emailToRequest")
                 .end()
-                .log("Finished Normalization")
                 .process(new LoggerProcessor())
-        .to("seda:requestPersistance");
+        .to("direct:RouteNormalizer");
     }
 }
