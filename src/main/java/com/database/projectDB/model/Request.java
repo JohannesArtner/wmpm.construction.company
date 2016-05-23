@@ -2,6 +2,7 @@ package com.database.projectDB.model;
 
 import com.database.employeeDB.model.SpecializationType;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.data.annotation.Id;
 import java.util.Date;
 
@@ -10,15 +11,37 @@ import java.util.Date;
  */
 public class Request {
     @Id
+    @JsonProperty("id")
     private String id;
 
+    @JsonProperty("clientId")
     private long clientId;
 
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("specializationType")
     private SpecializationType specializationType;
+
+    @JsonProperty("dateFrom")
     private Date dateFrom;
+
+    @JsonProperty("dateTo")
     private Date dateTo;
+
+    @JsonProperty("location")
     private String location;
+
+    @JsonProperty("squaremeters")
+    private Double squaremeters;
+
+    public Double getSquaremeters() {
+        return squaremeters;
+    }
+
+    public void setSquaremeters(Double squaremeters) {
+        this.squaremeters = squaremeters;
+    }
 
     public Request() {
     }
