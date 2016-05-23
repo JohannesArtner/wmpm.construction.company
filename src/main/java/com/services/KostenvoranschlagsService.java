@@ -2,7 +2,9 @@ package com.services;
 
 import com.database.employeeDB.model.SpecializationType;
 import com.database.projectDB.model.Offer;
+import com.database.projectDB.model.Request;
 import org.apache.camel.EndpointInject;
+import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +25,14 @@ public class KostenvoranschlagsService {
 
     }
 
-    public Offer makeForTiefbau(long requestId) throws Exception {
+    public Offer makeForTiefbau(Exchange exchange) throws Exception {
         LOG.debug("we are making a Kostenvoranschlag for the Tiefbau!");
 
-        producer.sendBody("<hello>world!</hello>");
+        Request request = exchange.getOut().getBody(Request.class);
 
-        /*Offer offer = new Offer();
+        //producer.sendBody("<hello>world!</hello>");
+
+        Offer offer = new Offer();
         offer.setDescription(request.getDescription());
         offer.setClientId(request.getClientId());
         offer.setCreatedAt(new Date());
@@ -41,9 +45,14 @@ public class KostenvoranschlagsService {
         } else {
             offer.setManHourCosts(request.getSquaremeters().intValue() * 5);
             offer.setMaterialcosts(request.getSquaremeters().intValue() * 2);
-        }*/
+        }
+
+        return offer;
+    }
+
+    public Offer makeForHochbau(Exchange exchange) throws Exception {
+        LOG.debug("we are making a Kostenvoranschlag for the Hochbau!");
 
         return null;
     }
-
 }
