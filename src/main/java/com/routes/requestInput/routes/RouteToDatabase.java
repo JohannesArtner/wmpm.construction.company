@@ -23,6 +23,8 @@ public class RouteToDatabase extends RouteBuilder {
         from("seda:requestPersistance")
                 .log("Persisting Data")
                 .process(databaseProcessor)
-        .end();
+         .log("save to inbox for furthe processing")
+         .end();
+                //.to("file:target/inbox") [Weiter zum ReqeustIntegrationRoute]
     }
 }

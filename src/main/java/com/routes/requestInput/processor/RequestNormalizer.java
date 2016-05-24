@@ -2,6 +2,7 @@ package com.routes.requestInput.processor;
 
 import com.database.clientDB.model.Client;
 import com.database.projectDB.model.Request;
+import com.routes.requestInput.model.MailInputModel;
 import com.routes.requestInput.routes.RouteRestFormInput;
 import com.routes.requestInput.model.NormalizedInput;
 import com.routes.requestInput.model.RestFormInputModel;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Rudolf & Wailzer
  * Normalizes the two possible inputs (forms and Input)
  */
 @Service
@@ -50,10 +52,33 @@ public class RequestNormalizer {
     }
 
     public void emailToRequest(Exchange exchange){
+        MailInputModel mIM = new MailInputModel(exchange.getIn().getBody().toString(), exchange.getIn().getHeaders().toString());
 
-        Map<String,Object> body = new HashMap();
-        body.put("client",null);
-        body.put("request",null);
+
+        Request request = new Request();
+        request.setDateFrom(mIM.getDateFrom());
+        request.setDateTo(mIM.getDateTo());
+        request.setDescription(mIM.getDescription());
+        request.setSpecializationType(mIM.getSpecializationType());
+        request.setSquaremeters(mIM.getSquaremeter());
+
+        Client client = new Client();
+        client.setClientFirstname(mIM.getClientFirstname());
+        client.setClientLastname(mIM.getClientLastname());
+        client.setCompanyName(mIM.getCompanyName());
+        client.setEmail(mIM.getEmail());
+        client.setAddress(mIM.getAddress());
+        client.setTelephone(mIM.getTelephone());
+
+        logger.debug("Created Request: "+request.toString());
+        logger.debug("Created Client: "+client.toString());
+
+
+        //Map<String,Object> body = new HashMap();
+        //body.put("client",null);
+        //body.put("request",null);
+
+        NormalizedInput body = new NormalizedInput(client,request);
 
         exchange.getOut().setBody(body);
         exchange.getOut().setHeaders(exchange.getIn().getHeaders());

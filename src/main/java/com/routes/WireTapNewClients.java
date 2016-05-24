@@ -11,6 +11,6 @@ public class WireTapNewClients extends RouteBuilder {
     public void configure() throws Exception {
         from("direct:start")
                 .wireTap("mock:tapped")
-                .to("mock:out");
+                .to("direct:");
     }
 }

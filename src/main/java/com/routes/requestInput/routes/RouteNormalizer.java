@@ -16,6 +16,8 @@ public class RouteNormalizer extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         logger.info("Rout from Normalizer to Database");
+        //TODO Wird bei ReoutePollingIDFromDB entschieden bitte
+        //from("seda:requestNormalizerQueue2") [vom ProutePolling]
         from("seda:requestNormalizerQueue")
                 .log("Starting normalization")
                 .choice()
