@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 /**
  * Created by mionisation on 5/21/16.
  */
-@Component
 public class OfferAcceptedRoute extends RouteBuilder {
     AggregationStrategy aggregationStrategy;
     @Override
