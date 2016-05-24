@@ -1,9 +1,9 @@
 package com.routes.requestInput.routes;
 
+import com.database.clientDB.model.Client;
+import com.database.employeeDB.model.ProjectManager;
+import com.database.projectDB.model.Request;
 import com.routes.requestInput.model.RestFormInputModel;
-import com.routes.requestInput.processor.RequestValidationProcessor;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.log4j.Logger;
@@ -12,12 +12,11 @@ import org.springframework.stereotype.Component;
 import static org.apache.camel.model.rest.RestParamType.body;
 
 /**
- * Created by rudolfplettenberg on 19.05.16.
+ * Rest API Controller
  */
 @Component
-public class RouteRestFormInput extends RouteBuilder {
-
-    static Logger logger = Logger.getLogger(RouteRestFormInput.class.getName());
+public class RestController extends RouteBuilder {
+    static Logger logger = Logger.getLogger(RestController.class.getName());
 
     @Override
     public void configure() throws Exception {
@@ -36,30 +35,29 @@ public class RouteRestFormInput extends RouteBuilder {
                 .apiProperty("cors", "true");
 
 
-        rest("/request").description("Request rest service")
+        rest("/requests").description("Request rest service")
                 .consumes("application/json").produces("application/json")
 
 
                 .post().description("Post request").type(RestFormInputModel.class)
                 .param().name("body").type(body).description("The form input of a request").endParam()
                 .responseMessage().code(200).message("Request created").endResponseMessage()
-                .to("direct:incomingForm");
+                .to("direct:incomingForm")
 
+                .get().description("Get all Requests").outTypeList(Request.class)
+                .to("mongodb:myDb?database=test&collection=request&operation=findAll");
 
-        from("direct:incomingForm")
-                .log("Incoming Request from a form")
-                .process(new RequestValidationProcessor())
-                .log("Request is valid")
-                .process(new Processor() {
-                    public void process(Exchange exchange) throws Exception {
-                        //set Header origin to form
-                        logger.info("Setting headers");
-                        exchange.getIn().setHeader("origin", "form");
-                        logger.info("Debug message body: "+exchange.getIn().getBody().toString());
-                    }
-                })
-                .log("Added header")
-                .to("seda:requestNormalizerQueue");
+        rest("clients").description("Client Rest Service")
+                .consumes("application/json").produces("application/json")
+
+                .get().description("Get all Clients").outTypeList(Client.class)
+                .to("bean:clientDAO?method=findAll()");
+
+        //Project manager Rest
+        rest("pm").description("Projectmanager Rest Service")
+                .consumes("application/json").produces("application/json")
+
+                .get().description("Get all Clients").outTypeList(ProjectManager.class)
+                .to("bean:employeeDAO?method=findAllProjectManagers()");
     }
-
 }
