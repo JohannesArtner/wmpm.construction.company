@@ -17,11 +17,11 @@ public class RouteNormalizer extends RouteBuilder {
     public void configure() throws Exception {
         logger.info("Rout from Normalizer to Database");
         //TODO Wird bei ReoutePollingIDFromDB entschieden bitte
+        //from("seda:requestNormalizerQueue2") [vom ProutePolling]
         from("seda:requestNormalizerQueue")
                 .log("Starting normalization")
                 .choice()
                 .when(header("origin").isEqualTo("form"))
-                //TODO put here ROUTE POLLING!
                     .log("Form origin detected")
                     .to("bean:requestNormalizer?method=formToRequest")
                 .when(header("origin").isEqualTo("email"))

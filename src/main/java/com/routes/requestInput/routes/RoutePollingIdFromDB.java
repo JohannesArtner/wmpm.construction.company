@@ -22,19 +22,19 @@ public class RoutePollingIdFromDB extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         logger.info("Route for Polling ID from DB");
-        from("direct:fromRequest")
+        from("seda:requestNormalizerQueue")
                 .log("Getting Request from Form")
                 //.filter()
                 .process(databaseGetIDProcessor) //Returns Message + Offset
                 .choice()
                 .when(body().contains("ALREADY_EXISTS"))
                     .log("found client")
-                    .to("bean:requestNormalizer?method=formToRequest")
+                    .to("file:target/inbox")
                 .when(body().contains("CREATE_NEW"))
                     .log("new client")
-                    .to("bean:requestNormalizer?method=emailToRequest")
+                    .to("seda:requestNormalizerQueue")
                 .end()
                 .process(new LoggerProcessor())
-        .to("direct:RouteNormalizer");
+        .to("seda:requestNormalizerQueue2");
     }
 }
