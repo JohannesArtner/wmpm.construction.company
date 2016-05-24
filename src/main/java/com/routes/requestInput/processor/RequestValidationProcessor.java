@@ -1,6 +1,6 @@
 package com.routes.requestInput.processor;
 
-import com.routes.requestInput.routes.RouteRestFormInput;
+import com.routes.requestInput.routes.RouteRequestFormInputToNormalizer;
 import com.routes.requestInput.exception.RequestValidationException;
 import com.routes.requestInput.model.RestFormInputModel;
 import org.apache.camel.Exchange;
@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class RequestValidationProcessor implements Processor {
 
-    static Logger logger = Logger.getLogger(RouteRestFormInput.class.getName());
+    static Logger logger = Logger.getLogger(RequestValidationProcessor.class.getName());
 
     @Override
     public void process(Exchange exchange) throws RequestValidationException {

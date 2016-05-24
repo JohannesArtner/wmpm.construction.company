@@ -1,6 +1,6 @@
 package com.routes.requestInput.processor;
 
-import com.routes.requestInput.routes.RouteRestFormInput;
+import com.routes.requestInput.routes.RouteRequestFormInputToNormalizer;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
  * Just logs the current message
  */
 public class LoggerProcessor implements Processor {
-    static Logger logger = Logger.getLogger(RouteRestFormInput.class.getName());
+    static Logger logger = Logger.getLogger(LoggerProcessor.class.getName());
 
     @Override
     public void process(Exchange exchange) throws Exception {
