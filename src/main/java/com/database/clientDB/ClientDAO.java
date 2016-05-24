@@ -3,6 +3,7 @@ package com.database.clientDB;
 import com.database.clientDB.model.Client;
 import com.database.clientDB.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * Created by rudolfplettenberg on 05.05.16.
  */
-@Service
+@Service("clientDAO")
 public class ClientDAO {
     @Autowired
     ClientRepository clientRepository;
