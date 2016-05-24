@@ -3,15 +3,12 @@ package com.routes.requestInput.processor;
 import com.database.clientDB.model.Client;
 import com.database.projectDB.model.Request;
 import com.routes.requestInput.model.MailInputModel;
-import com.routes.requestInput.routes.RouteRestFormInput;
+import com.routes.requestInput.routes.RouteRequestFormInputToNormalizer;
 import com.routes.requestInput.model.NormalizedInput;
 import com.routes.requestInput.model.RestFormInputModel;
 import org.apache.camel.Exchange;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Rudolf & Wailzer
@@ -19,7 +16,7 @@ import java.util.Map;
  */
 @Service
 public class RequestNormalizer {
-    static Logger logger = Logger.getLogger(RouteRestFormInput.class.getName());
+    static Logger logger = Logger.getLogger(RequestNormalizer.class.getName());
 
 
     public void formToRequest(Exchange exchange) {

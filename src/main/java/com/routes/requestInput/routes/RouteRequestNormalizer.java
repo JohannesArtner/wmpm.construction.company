@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
  * Created by rudolfplettenberg on 19.05.16.
  */
 @Component
-public class RouteNormalizer extends RouteBuilder {
+public class RouteRequestNormalizer extends RouteBuilder {
 
-    static Logger logger = Logger.getLogger(RouteRestFormInput.class.getName());
+    static Logger logger = Logger.getLogger(RouteRequestFormInputToNormalizer.class.getName());
 
     @Override
     public void configure() throws Exception {

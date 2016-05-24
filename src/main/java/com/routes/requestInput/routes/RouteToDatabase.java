@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RouteToDatabase extends RouteBuilder {
-    static Logger logger = Logger.getLogger(RouteRestFormInput.class.getName());
+    static Logger logger = Logger.getLogger(RouteRequestFormInputToNormalizer.class.getName());
 
     @Autowired
     DatabaseProcessor databaseProcessor;
@@ -23,7 +23,7 @@ public class RouteToDatabase extends RouteBuilder {
         from("seda:requestPersistance")
                 .log("Persisting Data")
                 .process(databaseProcessor)
-         .log("save to inbox for furthe processing")
+         .log("save to inbox for further processing")
          .end();
                 //.to("file:target/inbox") [Weiter zum ReqeustIntegrationRoute]
     }
