@@ -16,10 +16,11 @@ public class RequestIntegrationRoute extends RouteBuilder {
     @Override
 
     public void configure() throws Exception {
+        errorHandler(deadLetterChannel("file:errors"));
         logger.info("Route for the Hochbau or Tiefbau decision");
 
         from("file:target/inbox")
-
+               // .errorHandler(loggingErrorHandler("com.errorlogger"))
                 .process(new LoggingProcessor())
 
                 .bean(new TransformationBean(), "makeUpperCase")

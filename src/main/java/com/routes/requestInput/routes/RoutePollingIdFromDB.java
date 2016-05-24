@@ -21,6 +21,7 @@ public class RoutePollingIdFromDB extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        errorHandler(deadLetterChannel("seda:errors"));
         logger.info("Route for Polling ID from DB");
         from("seda:requestNormalizerQueue")
                 .log("Getting Request from Form")
