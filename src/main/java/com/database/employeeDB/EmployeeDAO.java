@@ -20,7 +20,7 @@ import java.util.List;
  *
  * Created by rudolfplettenberg on 05.05.16.
  */
-@Service
+@Service("employeeDAO")
 public class EmployeeDAO {
     @Autowired
     SalesmanRepository salesmanRepository;
@@ -109,6 +109,7 @@ public class EmployeeDAO {
      * @return List of all available ProjectManagers. Empty if none were found.
      */
     public Iterable<ProjectManager> findAllProjectManagers(){
+
         return projectManagerRepository.findAll();
     }
 
