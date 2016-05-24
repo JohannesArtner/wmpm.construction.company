@@ -10,10 +10,11 @@ import org.springframework.stereotype.Component;
 /**
  * Created by Daniel Wailzer
  */
+/*
 @Component
 public class RoutePollingIdFromDB extends RouteBuilder {
 
-    static Logger logger = Logger.getLogger(RouteRestFormInput.class.getName());
+    static Logger logger = Logger.getLogger(RouteRequestFormInputToNormalizer.class.getName());
 
     @Autowired
     DatabaseGetIDProcessor databaseGetIDProcessor;
@@ -39,3 +40,4 @@ public class RoutePollingIdFromDB extends RouteBuilder {
         .to("seda:requestNormalizerQueue2");
     }
 }
+*/

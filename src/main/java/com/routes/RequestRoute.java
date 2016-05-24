@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 /**
  * Created by Johannes on 26.04.2016.
  */
-@Component
 public class RequestRoute extends RouteBuilder {
     public static final String CAMEL_FILE_NAME = "CamelFileName";
 
