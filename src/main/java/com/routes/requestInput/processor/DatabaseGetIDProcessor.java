@@ -60,5 +60,8 @@ public class DatabaseGetIDProcessor implements Processor {
             exchange.getOut().setBody(exchange.getIn().toString() + " CREATE_NEW");
         }
 
-        }
+        exchange.getOut().setHeaders(exchange.getIn().getHeaders());
+        //exchange.getOut().setAttachments(exchange.getIn().getAttachments());
+
+    }
 }
