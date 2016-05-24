@@ -25,7 +25,7 @@ public class RequestIntegrationRoute extends RouteBuilder {
                 .bean(new TransformationBean(), "makeUpperCase")
                 .log("Transform Body")
 
-                .unmarshal().csv()
+                .unmarshal().soapjaxb()
                 .log("Unmarshall to right Format")
 
                 .split(body().tokenize(","))
