@@ -4,7 +4,7 @@ import com.Processors.LoggingProcessor;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
-public class FacebookPublisher extends RouteBuilder {
+public class SocialMediaPublisher extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
@@ -14,12 +14,17 @@ public class FacebookPublisher extends RouteBuilder {
                 //.to("https://www.facebook.com")
 
         from("direct:foo")
-                        .to("facebook://postFeed?inBody=postUpdate")
-                        .to("facebook://endpoint[?options]")
-                        .convertBodyTo(String.class)
-                        .to("log:FacebookDump")
-                        .to("mock:finish");
+        //multicast().parallelProcessing()
+
+                .to("twitter://timeline/user?consumerKey=CrVdcIxI1s9vGo6lYM2AB3icG&consumerSecret=sqnGHKHmFBbtOSB1BwA0Trfiyoi0pSg1bMNUhnOXYEwBeFPuat&accessToken=734281955454427136-tNvFD0XS89Yi0QdSgghCeuuRFyERaOj&accessTokenSecret=rFpmvLGSOd4HCtYlcSfHPUQgrw3SGzbAvv8MM4zkXo1I8")
+
+                .to("facebook://postFeed?inBody=postUpdate")
+                .to("facebook://endpoint[?options]")
+                .convertBodyTo(String.class)
+                .to("log:FacebookDump")
+                .to("mock:finish");
 
         ;
     }
 }
+
