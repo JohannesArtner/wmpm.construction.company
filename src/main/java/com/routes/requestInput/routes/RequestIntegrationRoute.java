@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
  */
 public class RequestIntegrationRoute extends RouteBuilder {
 
-    static Logger logger = Logger.getLogger(RouteRestFormInput.class.getName());
+    static Logger logger = Logger.getLogger(RequestIntegrationRoute.class.getName());
 
     @Override
 
