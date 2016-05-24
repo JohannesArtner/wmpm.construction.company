@@ -24,6 +24,7 @@ public class RouteToDatabase extends RouteBuilder {
                 .log("Persisting Data")
                 .process(databaseProcessor)
          .log("save to inbox for furthe processing")
-         .to("file:target/inbox");
+         .end();
+                //.to("file:target/inbox") [Weiter zum ReqeustIntegrationRoute]
     }
 }
