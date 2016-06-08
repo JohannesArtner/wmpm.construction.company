@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by mionisation on 5/24/16.
  */
+@Component
 public class IncomingMail extends RouteBuilder {
     @Override
     public void configure() throws Exception {

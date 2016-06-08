@@ -2,10 +2,12 @@ package com.routes.offerProcessor.routes;
 
 import com.Beans.TransformationBean;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by mionisation on 5/24/16.
  */
+@Component
 public class OfferDecisionRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
