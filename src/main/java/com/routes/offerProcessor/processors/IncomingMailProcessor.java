@@ -17,8 +17,8 @@ public class IncomingMailProcessor implements Processor {
         logger.info("Header: "+exchange.getIn().getHeaders().toString());
         logger.info("Subject: "+exchange.getIn().getHeaders().get("subject").toString());
         logger.info("Body: "+exchange.getIn().getBody().toString());
+        String fromAdress = (String)exchange.getIn().getHeaders().get("from");
+        logger.info("From: "+fromAdress);
         logger.info("-------------------------------");
-
-
     }
 }
