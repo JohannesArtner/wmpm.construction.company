@@ -49,4 +49,15 @@ public class OfferAcceptionModel {
     public void setCustomerMail(String customerMail) {
         this.customerMail = customerMail;
     }
+
+    @Override
+    public String toString() {
+        return "OfferAcceptionModel{" +
+                "projectId='" + projectId + '\'' +
+                ", response='" + response + '\'' +
+                ", responseNotes='" + responseNotes + '\'' +
+                ", customerName='" + customerName + '\'' +
+                ", customerMail='" + customerMail + '\'' +
+                '}';
+    }
 }
