@@ -42,10 +42,10 @@ public class RestController extends RouteBuilder {
                 .post().description("Post request").type(RestFormInputModel.class)
                 .param().name("body").type(body).description("The form input of a request").endParam()
                 .responseMessage().code(200).message("Request created").endResponseMessage()
-                .to("direct:incomingForm")
+                .to("direct:incomingForm");
 
-                .get().description("Get all Requests").outTypeList(Request.class)
-                .to("mongodb:myDb?database=test&collection=request&operation=findAll");
+                //.get().description("Get all Requests").outTypeList(Request.class)
+                //.to("mongodb:myDb?database=test&collection=request&operation=findAll");
 
         rest("clients").description("Client Rest Service")
                 .consumes("application/json").produces("application/json")
