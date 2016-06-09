@@ -2,7 +2,7 @@ package com.routes.offerProcessor.routes;
 
 import com.routes.offerProcessor.processors.IncomingMailProcessor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.google.mail.GoogleMailConfiguration;
+//import org.apache.camel.component.google.mail.GoogleMailConfiguration;
 import org.springframework.stereotype.Component;
 
 /**
