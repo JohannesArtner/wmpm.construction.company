@@ -37,7 +37,7 @@ import static de.flapdoodle.embed.process.runtime.Network.localhostIsIPv6;
 public class MongoConfig {
     static Logger logger = Logger.getLogger(MongoConfig.class.getName());
 
-    private static final int PORT = 12345;
+    private static final int PORT = 54321;
 
     static {
         try {
