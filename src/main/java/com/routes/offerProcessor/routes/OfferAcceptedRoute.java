@@ -19,6 +19,6 @@ public class OfferAcceptedRoute extends RouteBuilder {
                 .enrich("direct:resource", aggregationStrategy)
                 .process(new AcceptedOfferPersistor())
                 //save offers as finished //rejected and unpublished
-                .to("direct:resultToSocialMedia");
+                .to("direct:offerMulticast");
     }
 }
