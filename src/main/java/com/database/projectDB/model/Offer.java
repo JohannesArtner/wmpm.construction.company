@@ -4,11 +4,13 @@ import com.database.employeeDB.model.SpecializationType;
 import com.sun.istack.NotNull;
 import org.springframework.data.annotation.Id;
 
+import javax.persistence.Entity;
 import java.util.Date;
 
 /**
  * Created by rudolfplettenberg on 07.05.16.
  */
+@Entity
 public class Offer {
     @Id
     private String id;

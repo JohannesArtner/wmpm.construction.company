@@ -26,4 +26,3 @@ public class OfferToDatabase extends RouteBuilder{
                     .end();
         }
 }
-
