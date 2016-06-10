@@ -2,7 +2,6 @@ package com.routes.requestProcessor.routes;
 
 import com.database.projectDB.model.Offer;
 import com.routes.requestProcessor.processors.DatabaseOfferProcessor;
-import com.routes.requestProcessor.processors.OfferEmailProcessor;
 import org.apache.camel.*;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.spi.Synchronization;
@@ -31,8 +30,10 @@ public class OfferViaEmail  extends RouteBuilder {
         Exchange exchange = consumer.receive(1);
 
         logger.info("The polling-consumer is polling the Offers, if he finds one, he will send an email to the Customer!");
-        Offer offer = (Offer) exchange.getOut().getBody();
 
-        from("direct:createPdfOffer").to("direct:offerToPdf");
+        Endpoint pdfEndpoint = context.getEndpoint("direct:offerToPdf");
+        Producer producer = pdfEndpoint.createProducer();
+        producer.start();
+        producer.process(exchange);
     }
 }
