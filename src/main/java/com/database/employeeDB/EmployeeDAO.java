@@ -53,7 +53,7 @@ public class EmployeeDAO {
      * @return returns a List of Employees and its subClasses. Empty if none were found
      */
     public List<Employee> findAllEmployees(){
-        List<Employee> employees = new ArrayList<>();
+        List<Employee> employees = new ArrayList<Employee>();
         Iterable projectmanagers = projectManagerRepository.findAll();
         Iterable salesmen = salesmanRepository.findAll();
 
