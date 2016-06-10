@@ -3,7 +3,10 @@ package com.routes.requestInput.routes;
 import com.database.clientDB.model.Client;
 import com.database.employeeDB.model.ProjectManager;
 import com.database.projectDB.model.Request;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.routes.requestInput.exception.RequestValidationException;
 import com.routes.requestInput.model.RestFormInputModel;
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.log4j.Logger;
@@ -15,7 +18,7 @@ import static org.apache.camel.model.rest.RestParamType.body;
  * Rest API Controller
  */
 @Component
-public class RestController extends RouteBuilder {
+public class RestController extends AbstractRestRouteBuilder {
     static Logger logger = Logger.getLogger(RestController.class.getName());
 
     @Override
@@ -59,5 +62,12 @@ public class RestController extends RouteBuilder {
 
                 .get().description("Get all Clients").outTypeList(ProjectManager.class)
                 .to("bean:employeeDAO?method=findAllProjectManagers()");
+
+        onException(JsonParseException.class)
+                .log("JsonParseException: ${exception.message}")
+                .handled(true)
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
+                .setHeader(Exchange.CONTENT_TYPE, constant("text/plain"))
+                .setBody().constant("Invalid json data");
     }
 }

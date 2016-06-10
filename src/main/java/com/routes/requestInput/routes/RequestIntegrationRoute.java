@@ -19,7 +19,7 @@ public class RequestIntegrationRoute extends RouteBuilder {
         errorHandler(deadLetterChannel("file:errors"));
         logger.info("Route for the Hochbau or Tiefbau decision");
 
-        from("file:target/inbox")
+        from("seda:requestprocessingstart")
                // .errorHandler(loggingErrorHandler("com.errorlogger"))
                 .process(new LoggingProcessor())
 

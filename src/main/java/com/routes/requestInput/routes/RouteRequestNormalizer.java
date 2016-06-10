@@ -9,15 +9,13 @@ import org.springframework.stereotype.Component;
  * Created by rudolfplettenberg on 19.05.16.
  */
 @Component
-public class RouteRequestNormalizer extends RouteBuilder {
+public class RouteRequestNormalizer extends AbstractRestRouteBuilder {
 
     static Logger logger = Logger.getLogger(RouteRequestFormInputToNormalizer.class.getName());
 
     @Override
     public void configure() throws Exception {
-        logger.info("Rout from Normalizer to Database");
-        //TODO Wird bei ReoutePollingIDFromDB entschieden bitte
-        //from("seda:requestNormalizerQueue2") [vom ProutePolling]
+        logger.info("Route from Normalizer to Database");
         from("seda:requestNormalizerQueue")
                 .log("Starting normalization")
                 .choice()
