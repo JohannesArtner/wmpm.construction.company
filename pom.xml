@@ -116,10 +116,16 @@
         <!-- Camel Swagger component. Somehow swagger needs hibernate validator -->
         <!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
 <!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+<!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
 <dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-entitymanager</artifactId>
-    <version>3.5.6-Final</version>
+    <version>4.2.21.Final</version>
+</dependency>
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>4.2.21.Final</version>
 </dependency>
 
 <dependency>
