@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by mionisation on 5/21/16.
  */
 public class EnrichProjectAggregationStrategy implements AggregationStrategy {
-    static Logger logger = Logger.getLogger(Processor.class.getName());
+    static Logger logger = Logger.getLogger(EnrichProjectAggregationStrategy.class.getName());
 
     @Autowired
     OfferDAO offerDAO;
@@ -26,6 +26,13 @@ public class EnrichProjectAggregationStrategy implements AggregationStrategy {
         /**
          * Append the project managers to the original message
          */
+/*        logger.info("HELLO TEST");
+        logger.info("original in: " + original.getIn().toString());
+        logger.info("original out: " + original.getOut().toString());
+        logger.info("resource in: " + resource.getIn().toString());
+        logger.info("resource out: " + resource.getIn().toString());
+
+
         String originalMessage = original.getIn().getBody().toString();
 
         String client = original.getIn().getHeaders().toString();
@@ -45,7 +52,7 @@ public class EnrichProjectAggregationStrategy implements AggregationStrategy {
             original.getOut().setBody(mergeResult);
         } else {
             original.getIn().setBody(mergeResult);
-        }
+        }*/
         return original;
     }
 

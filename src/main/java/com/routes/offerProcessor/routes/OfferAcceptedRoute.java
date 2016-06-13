@@ -16,9 +16,10 @@ public class OfferAcceptedRoute extends RouteBuilder {
     public void configure() throws Exception {
         aggregationStrategy = new EnrichProjectAggregationStrategy();
         from("direct:newOfferAccepted")
-                .enrich("direct:resource", aggregationStrategy)
-                .process(new AcceptedOfferPersistor())
+
+                //.enrich("jpa://com.database.employeeDB.model.ProjectManager?consumeDelete=false&consumer.nativeQuery=select * from ProjectManager", aggregationStrategy)
+                //.process(new AcceptedOfferPersistor())
                 //save offers as finished //rejected and unpublished
-                .to("direct:offerMulticast");
+                .to("seda:offerMulticast");
     }
 }
