@@ -3,12 +3,15 @@ package com.database.projectDB.model;
 import com.database.employeeDB.model.SpecializationType;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.springframework.data.annotation.Id;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Date;
 
 /**
  * Created by rudolfplettenberg on 07.05.16.
  */
+@Entity
 public class Request {
     @Id
     @JsonProperty("id")

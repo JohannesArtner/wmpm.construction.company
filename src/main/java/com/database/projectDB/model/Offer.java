@@ -2,15 +2,18 @@ package com.database.projectDB.model;
 
 import com.database.employeeDB.model.SpecializationType;
 import com.sun.istack.NotNull;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 import java.util.Date;
 
 /**
  * Created by rudolfplettenberg on 07.05.16.
  */
-@Entity
+@Entity(name = "Offer")
+@NamedQuery(name = "selectAllOpen", query = "select o from com.database.projectDB.model.Offer o where o.sent=false")
 public class Offer {
     @Id
     private String id;
@@ -21,8 +24,11 @@ public class Offer {
     @NotNull
     private long clientId;
 
+    @Transient
     private Request request;
     private String description;
+
+    private boolean sent = false;
 
     //Time
     private Date startDate;
