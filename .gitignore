@@ -1,5 +1,7 @@
 # Created by https://www.gitignore.io/api/intellij
 
+config.properties
+
 ### Intellij ###
 # User-specific stuff:
 .idea/workspace.xml

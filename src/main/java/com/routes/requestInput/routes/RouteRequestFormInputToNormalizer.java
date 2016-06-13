@@ -1,5 +1,6 @@
 package com.routes.requestInput.routes;
 
+import com.routes.requestInput.exception.RequestValidationException;
 import com.routes.requestInput.processor.RequestValidationProcessor;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -11,12 +12,19 @@ import org.springframework.stereotype.Component;
  * Created by rudolfplettenberg on 19.05.16.
  */
 @Component
-public class RouteRequestFormInputToNormalizer extends RouteBuilder {
+public class RouteRequestFormInputToNormalizer extends AbstractRestRouteBuilder {
 
     static Logger logger = Logger.getLogger(RouteRequestFormInputToNormalizer.class.getName());
 
     @Override
     public void configure() throws Exception {
+        onException(RequestValidationException.class)
+                .log("RequestValidationException: ${exception.message}")
+                .handled(true)
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
+                .setHeader(Exchange.CONTENT_TYPE, constant("text/plain"))
+                .setBody().simple("Invalid Form data: ${exception.message}");
+
         from("direct:incomingForm")
                 .log("Incoming Request from a form")
                 .process(new RequestValidationProcessor())
