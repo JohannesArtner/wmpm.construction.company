@@ -13,14 +13,16 @@ public class IncomingMailProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
+        String fromAdress = (String)exchange.getIn().getHeaders().get("from");
+        /*Log contents of email
         logger.info("-------------------------------");
         logger.info("Incoming Offer Mail:");
         logger.info("Header: "+exchange.getIn().getHeaders().toString());
         logger.info("Subject: "+exchange.getIn().getHeaders().get("subject").toString());
         logger.info("Body: "+exchange.getIn().getBody().toString());
-        String fromAdress = (String)exchange.getIn().getHeaders().get("from");
         logger.info("From: "+fromAdress);
         logger.info("-------------------------------");
+        */
         /**
          * Set java object to store attributes
          * Example email format:
@@ -35,7 +37,15 @@ public class IncomingMailProcessor implements Processor {
         oa.setResponseNotes(oaArr[2]);
         oa.setCustomerName(fromAdress.split("<")[0].trim());
         oa.setCustomerMail(fromAdress.split("<")[1].replace(">", ""));
-        logger.info("OfferAcceptionModel for this mail: " + oa.toString());
+        logger.info("------------BEGIN-------------------");
+        logger.info("OfferAcceptionModel for this mail");
+        logger.info("Project ID: " + oa.getProjectId());
+        logger.info("Response: " + oa.getResponse());
+        logger.info("Notes: " + oa.getResponseNotes());
+        logger.info("Customer mail: " + oa.getCustomerMail());
+        logger.info("Customer name: " + oa.getCustomerName());
+        logger.info("------------END-------------------");
+
         exchange.getOut().setBody(oa);
     }
 }
