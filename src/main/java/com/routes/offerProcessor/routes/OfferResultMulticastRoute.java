@@ -13,8 +13,6 @@ public class OfferResultMulticastRoute extends RouteBuilder{
         from("direct:offerMulticast")
                 .multicast().parallelProcessing()
                 .to("direct:createGoogleCalendar")
-                .to("direct:createFacebookPost")
-                .to("direct:createTwitterTweet");
-
+                .to("direct:createSocialMediaPost");
     }
 }
