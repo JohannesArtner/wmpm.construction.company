@@ -36,17 +36,4 @@ public class OfferToPDF extends RouteBuilder {
                 .to("fop:application/pdf")
                 .to("file://" + readDir);
     }
-
-    public static void main(String[] args){
-        try {
-            OfferToPDF offerToPDF = new OfferToPDF();
-            CamelContext context = new DefaultCamelContext();
-            offerToPDF.context = context;
-            //offerToPDF.configure();
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

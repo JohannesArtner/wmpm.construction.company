@@ -31,8 +31,6 @@ public class SendMail extends RouteBuilder {
 
         Exchange exchange = endpoint.createExchange();
         Message in = exchange.getIn();
-        in.setBody("Hello Friend");
-        in.addAttachment("offer.pdf", new DataHandler(new FileDataSource("c:/Temp/camel/offerToPdf/offer.pdf")));
 
         String body = "Hello Customer.\nHere is your offer.\nIt is a good one!\n\nRegards The constructors.";
 
@@ -40,6 +38,7 @@ public class SendMail extends RouteBuilder {
         in.setHeader("To", "johannes.artner@gmx.at");
         in.setHeader("From", "offerManagementConstructionCom@gmail.com");
         in.setHeader("Subject", "This is your special Offer!");
+        in.addAttachment("offer.pdf", new DataHandler(new FileDataSource("c:/Temp/camel/offerToPdf/offer.pdf")));
 
         Producer producer = endpoint.createProducer();
         producer.start();

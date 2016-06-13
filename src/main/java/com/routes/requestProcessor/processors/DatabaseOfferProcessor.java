@@ -19,17 +19,16 @@ import org.springframework.stereotype.Service;
 public class DatabaseOfferProcessor implements Processor {
     static Logger logger = Logger.getLogger(Processor.class.getName());
 
-    @Autowired
-    RequestDAO requestDAO;
-    @Autowired
-    OfferDAO offerDAO;
-
     @Override
     public void process(Exchange exchange) throws Exception {
         logger.info("Saving new Offer: "+exchange.getIn().toString());
         Offer offer = exchange.getIn().getBody(Offer.class);
 
-        String id = offerDAO.save(offer).getId();
+        exchange.getIn().setBody("INSERT INTO " +
+                "Offer (salesmanId, createdAt, clientId, description, sent, startDate, finishDate, estimated_days, manhours, manHourCosts, materialCosts) " +
+                "VALUES('"
+                + exchange.getIn().getBody(String.class)
+                + "'");
 
         logger.info("Saved the offer successfully!");
     }

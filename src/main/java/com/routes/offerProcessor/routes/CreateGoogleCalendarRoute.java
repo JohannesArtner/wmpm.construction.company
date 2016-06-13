@@ -1,7 +1,10 @@
 package com.routes.offerProcessor.routes;
 
-import org.apache.camel.builder.RouteBuilder;
+
 import com.google.api.services.calendar.model.Calendar;
+import org.apache.camel.builder.RouteBuilder;
+
+
 /**
  * Created by mionisation on 6/9/16.
  */
