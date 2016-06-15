@@ -11,6 +11,8 @@ import javax.activation.FileDataSource;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.mail.util.ByteArrayDataSource;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -34,7 +36,7 @@ public class SendMail extends RouteBuilder {
 
         String path = "C:/Temp/camel/offerToPdf";
 
-        Endpoint endpointFile = context.getEndpoint("file://" + path + "?noop=true&move=done/${file:name}");
+        Endpoint endpointFile = context.getEndpoint("file://" + path + "?noop=true&move=.done");
         endpointFile.start();
 
         PollingConsumer consumer = endpointFile.createPollingConsumer();
@@ -65,7 +67,14 @@ public class SendMail extends RouteBuilder {
             Message in = exchange.getIn();
             String body = "Hello Customer!\nHere is your offer.\nIt is a good one!\n\nRegards The constructors.";
             in.setBody(body);
-            in.addAttachment("offer.pdf", new DataHandler(new FileDataSource("c:/Temp/camel/offerToPdf/offer.pdf")));
+
+            String filePath = (String) exchangeFile.getIn().getHeader(Exchange.FILE_PATH);
+            String fileName = (String) exchangeFile.getIn().getHeader(Exchange.FILE_NAME);
+            in.addAttachment(fileName, new DataHandler(new FileDataSource(filePath)));
+            byte[] file = in.getBody(byte[].class);
+            String fileId = in.getHeader("CamelFileName",String.class);
+            in.addAttachment(fileId, new DataHandler(new ByteArrayDataSource(file, "application/pdf")));
+
 
             Map<String, Object> headers = null;
             headers = new HashMap<String, Object>();
