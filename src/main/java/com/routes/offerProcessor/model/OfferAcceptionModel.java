@@ -9,6 +9,15 @@ public class OfferAcceptionModel {
     private String responseNotes;
     private String customerName;
     private String customerMail;
+    private String projectManagerId;
+
+    public String getProjectManagerId() {
+        return projectManagerId;
+    }
+
+    public void setProjectManagerId(String projectManagerId) {
+        this.projectManagerId = projectManagerId;
+    }
 
     public String getProjectId() {
         return projectId;

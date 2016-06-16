@@ -5,6 +5,7 @@ import com.routes.offerProcessor.processors.EnrichProjectAggregationStrategy;
 import com.routes.offerProcessor.processors.IncomingMailProcessor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,15 +13,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class OfferAcceptedRoute extends RouteBuilder {
+    @Autowired
+    AcceptedOfferPersistor acceptedOfferPersistor;
     AggregationStrategy aggregationStrategy;
     @Override
     public void configure() throws Exception {
         aggregationStrategy = new EnrichProjectAggregationStrategy();
         from("direct:newOfferAccepted").process(new IncomingMailProcessor())
 
-                //.enrich("jpa://com.database.employeeDB.model.ProjectManager?consumeDelete=false&consumer.nativeQuery=select * from ProjectManager", aggregationStrategy)
-                //.process(new AcceptedOfferPersistor())
+                .pollEnrich("file:testdata?fileName=projectManager.txt&readLock=markerFile", aggregationStrategy)
+                .process(acceptedOfferPersistor)
                 //save offers as finished //rejected and unpublished
-                .to("seda:offerMulticast");
+                .to("seda:offerMulticast").end();
     }
 }
