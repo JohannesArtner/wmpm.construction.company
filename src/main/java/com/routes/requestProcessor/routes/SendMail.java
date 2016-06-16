@@ -8,8 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.util.ByteArrayDataSource;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by Johannes on 10.06.2016.
@@ -23,26 +29,61 @@ public class SendMail extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        //Endpoint endpoint = context.getEndpoint("imaps://imap.gmail.com?username=offerManagementConstructionCom@gmail.com&password=supersafepw");
+        log.info("Initializing Email Service");
 
-        Endpoint endpoint = context.getEndpoint("smtp://offerManagementConstructionCom@gmail.com?password=supersafepw");
+        Endpoint endpointEmail = context.getEndpoint("smtp://smtp.gmail.com?port=587&username=offerManagementConstructionCom@gmail.com&password=supersafepw&mail.smtp.auth=true&mail.smtp.starttls.enable=true");
+        endpointEmail.start();
 
-        ProducerTemplate template = context.createProducerTemplate();
+        String path = "C:/Temp/camel/offerToPdf";
 
-        Exchange exchange = endpoint.createExchange();
-        Message in = exchange.getIn();
+        Endpoint endpointFile = context.getEndpoint("file://" + path + "?noop=true&move=.done");
+        endpointFile.start();
 
-        String body = "Hello Customer.\nHere is your offer.\nIt is a good one!\n\nRegards The constructors.";
+        PollingConsumer consumer = endpointFile.createPollingConsumer();
 
-        in.setBody(body);
-        in.setHeader("To", "johannes.artner@gmx.at");
-        in.setHeader("From", "offerManagementConstructionCom@gmail.com");
-        in.setHeader("Subject", "This is your special Offer!");
-        in.addAttachment("offer.pdf", new DataHandler(new FileDataSource("c:/Temp/camel/offerToPdf/offer.pdf")));
 
-        Producer producer = endpoint.createProducer();
-        producer.start();
-        producer.process(exchange);
+        while(true) {
+            consumer.start();
+            Exchange exchangeFile = consumer.receive();
+
+            Properties props = new Properties();
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.googlemail.com");
+            props.put("mail.smtp.port", "587");
+            Authenticator auth = null;
+            props.put("mail.smtp.auth", "true");
+            auth = new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication("offerManagementConstructionCom@gmail.com", "supersafepw");
+                }
+            };
+            Session t = Session.getInstance(props, auth);
+
+            ProducerTemplate template = context.createProducerTemplate();
+            template.start();
+            Exchange exchange = endpointEmail.createExchange();
+            Message in = exchange.getIn();
+            String body = "Hello Customer!\nHere is your offer.\nIt is a good one!\n\nRegards The constructors.";
+            in.setBody(body);
+
+            String filePath = (String) exchangeFile.getIn().getHeader(Exchange.FILE_PATH);
+            String fileName = (String) exchangeFile.getIn().getHeader(Exchange.FILE_NAME);
+            in.addAttachment(fileName, new DataHandler(new FileDataSource(filePath)));
+            byte[] file = in.getBody(byte[].class);
+            String fileId = in.getHeader("CamelFileName",String.class);
+            in.addAttachment(fileId, new DataHandler(new ByteArrayDataSource(file, "application/pdf")));
+
+
+            Map<String, Object> headers = null;
+            headers = new HashMap<String, Object>();
+            headers.put("Subject", "This is your special Offer!");
+            headers.put("To", "johannes.artner@gmx.at");
+            headers.put("From", "offerManagementConstructionCom@gmail.com");
+            template.sendBodyAndHeaders(endpointEmail, body, headers);
+            consumer.stop();
+        }
     }
 
     public static void main(String[] args){
