@@ -24,6 +24,6 @@ public class OfferAcceptedRoute extends RouteBuilder {
                 .pollEnrich("file:testdata?fileName=projectManager.txt&readLock=markerFile", aggregationStrategy)
                 .process(acceptedOfferPersistor)
                 //save offers as finished //rejected and unpublished
-                .to("seda:offerMulticast").end();
+                .to("direct:offerMulticast");
     }
 }
