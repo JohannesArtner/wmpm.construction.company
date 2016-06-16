@@ -3,6 +3,8 @@ package com.database.projectDB.repository;
 import com.database.projectDB.model.Project;
 import com.database.projectDB.model.ProjectStatus;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

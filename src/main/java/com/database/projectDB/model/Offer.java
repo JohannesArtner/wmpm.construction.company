@@ -18,10 +18,8 @@ public class Offer {
     @Id
     private String id;
 
-    @NotNull
     private long salesmanId;
     private Date createdAt;
-    @NotNull
     private long clientId;
 
     @Transient

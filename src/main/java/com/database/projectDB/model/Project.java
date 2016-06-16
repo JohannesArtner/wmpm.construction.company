@@ -10,7 +10,6 @@ public class Project {
     @Id
     private String id;
 
-    @NotNull
     private long clientId;
     private long projectManagerId;
 

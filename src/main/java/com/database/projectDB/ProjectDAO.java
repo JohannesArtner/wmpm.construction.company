@@ -5,12 +5,15 @@ import com.database.projectDB.model.Project;
 import com.database.projectDB.model.ProjectStatus;
 import com.database.projectDB.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by rudolfplettenberg on 08.05.16.
  */
+@Service("projectDAO")
 public class ProjectDAO {
     @Autowired
     ProjectRepository projectRepository;
