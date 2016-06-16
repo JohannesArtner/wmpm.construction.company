@@ -1,5 +1,6 @@
 package com.routes.offerProcessor.routes;
 
+import com.routes.offerProcessor.processors.IncomingMailProcessor;
 import com.routes.offerProcessor.processors.RejectedOfferPersistor;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Component;
 public class OfferRejectRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
-        from("direct:newOfferRejected")
+        IncomingMailProcessor imp = new IncomingMailProcessor();
+
+        from("direct:newOfferRejected").process(imp)
                 .process(new RejectedOfferPersistor()).end();
     }
 }

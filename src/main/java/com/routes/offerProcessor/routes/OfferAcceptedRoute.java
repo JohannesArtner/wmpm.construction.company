@@ -2,6 +2,7 @@ package com.routes.offerProcessor.routes;
 
 import com.routes.offerProcessor.processors.AcceptedOfferPersistor;
 import com.routes.offerProcessor.processors.EnrichProjectAggregationStrategy;
+import com.routes.offerProcessor.processors.IncomingMailProcessor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ public class OfferAcceptedRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         aggregationStrategy = new EnrichProjectAggregationStrategy();
-        from("direct:newOfferAccepted")
+        from("direct:newOfferAccepted").process(new IncomingMailProcessor())
 
                 //.enrich("jpa://com.database.employeeDB.model.ProjectManager?consumeDelete=false&consumer.nativeQuery=select * from ProjectManager", aggregationStrategy)
                 //.process(new AcceptedOfferPersistor())

@@ -15,7 +15,7 @@ import java.util.Properties;
 public class IncomingMail extends RouteBuilder {
     @Override
     public void configure() throws Exception {
-        IncomingMailProcessor imp = new IncomingMailProcessor();
+        //IncomingMailProcessor imp = new IncomingMailProcessor();
         //poll gmail inbox every 10 seconds
         InputStream in = new FileInputStream("config.properties");
         Properties p = new Properties();
@@ -24,6 +24,6 @@ public class IncomingMail extends RouteBuilder {
         String pw = p.getProperty("pw");
         //process and route it
         String route = String.format("imaps://imap.gmail.com?username=%s&password=%s&delete=false&unseen=true&consumer.delay=10000", login, pw);
-        from(route).process(imp).to("seda:newOfferReply");
+        from(route).to("seda:newOfferReply");
     }
 }
