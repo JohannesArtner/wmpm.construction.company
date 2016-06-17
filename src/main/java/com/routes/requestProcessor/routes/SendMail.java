@@ -21,7 +21,7 @@ import java.util.Properties;
  * Created by Johannes on 10.06.2016.
  */
 public class SendMail extends RouteBuilder {
-    static Logger logger = Logger.getLogger(OfferToDatabase.class);
+    static Logger logger = Logger.getLogger(SendMail.class);
 
     @Autowired
     public CamelContext context;
@@ -81,7 +81,15 @@ public class SendMail extends RouteBuilder {
             headers.put("Subject", "This is your special Offer!");
             headers.put("To", "johannes.artner@gmx.at");
             headers.put("From", "offerManagementConstructionCom@gmail.com");
+
+            in.setHeaders(headers);
+
+            exchange.setOut(exchange.getIn());
+
+
+            template.send(endpointEmail, exchange);
             template.sendBodyAndHeaders(endpointEmail, body, headers);
+
             consumer.stop();
         }
     }
