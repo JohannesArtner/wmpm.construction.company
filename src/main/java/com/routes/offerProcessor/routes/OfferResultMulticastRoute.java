@@ -14,7 +14,7 @@ public class OfferResultMulticastRoute extends RouteBuilder{
     public void configure() throws Exception {
         from("direct:offerMulticast")
                 .multicast().parallelProcessing()
-                //.to("direct:createGoogleCalendar")
+                .to("direct:createGoogleCalendar")
                 .to("direct:createSocialMediaPost");
     }
 }
