@@ -17,19 +17,9 @@ public class CreateGoogleCalendarRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         Event event = new Event();
+        String message = "New construction is happening";
+        String route = String.format("google-calendar://events/quickAdd?calendarId=%s&text=%s", "offerManagementConstructionCom@gmail.com", message);
 
-/*
-        String clientId = "716865151150-iccnrc4oqli46h1fq9n19143j87gtgff.apps.googleusercontent.com";
-        String clientSecret = "zHIhFsFufkggx2Vu7R_-0sMc&accessToken=ya29.Ci8DA4Ae-BELIHQT3s5l8DMtq5587ulAFAS1SHteYuK_DAAFn95DvQ2POoDsH8nk8g";
-        String refreshToken = "1/LABZFR1KNzgI_U2VO5xyE82V0TKjTj1knj6EEJK5seg";
-        GoogleCalendarConfiguration config = new GoogleCalendarConfiguration();
-        config.setClientId(clientId);
-        config.setClientSecret(clientSecret);
-        config.setRefreshToken(refreshToken);
-        */
-
-        String route = "google-calendar://events/quickAdd?calendarId=mycalendar&text=e";
-        String e = "New construction is happening";
         from("direct:createGoogleCalendar")
         .to(route);
     }
