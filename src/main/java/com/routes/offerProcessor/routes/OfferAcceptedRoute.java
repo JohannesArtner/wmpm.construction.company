@@ -21,7 +21,7 @@ public class OfferAcceptedRoute extends RouteBuilder {
         aggregationStrategy = new EnrichProjectAggregationStrategy();
         from("direct:newOfferAccepted").process(new IncomingMailProcessor())
 
-                .pollEnrich("file:testdata?fileName=projectManager.txt&readLock=markerFile", aggregationStrategy)
+               //TODO.pollEnrich("file:testdata?fileName=projectManager.txt&readLock=markerFile", aggregationStrategy)
                 .process(acceptedOfferPersistor)
                 //save offers as finished //rejected and unpublished
                 .to("direct:offerMulticast");
