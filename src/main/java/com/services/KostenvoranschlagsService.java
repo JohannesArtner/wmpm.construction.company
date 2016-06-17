@@ -1,6 +1,7 @@
 package com.services;
 
 import com.database.employeeDB.model.SpecializationType;
+import com.database.projectDB.OfferDAO;
 import com.database.projectDB.model.Offer;
 import com.database.projectDB.model.Request;
 import org.apache.camel.EndpointInject;
@@ -8,6 +9,8 @@ import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
@@ -15,10 +18,14 @@ import java.util.Date;
  * Created by Johannes on 19.05.2016.
  */
 
+@Service
 public class KostenvoranschlagsService {
     private static final Logger LOG = LoggerFactory.getLogger(KostenvoranschlagsService.class);
 
-    @EndpointInject(uri="activemq:com.kostenvoranschlag")
+    @Autowired
+    private OfferDAO offerDAO;
+
+    //@EndpointInject(uri="activemq:com.kostenvoranschlag")
     ProducerTemplate producer;
 
     public KostenvoranschlagsService() throws Exception {
@@ -30,8 +37,6 @@ public class KostenvoranschlagsService {
 
         Request request = exchange.getOut().getBody(Request.class);
 
-        //producer.sendBody("<hello>world!</hello>");
-
         Offer offer = new Offer();
         offer.setDescription(request.getDescription());
         offer.setClientId(request.getClientId());
@@ -39,13 +44,10 @@ public class KostenvoranschlagsService {
         offer.setEstimated_days(request.getSquaremeters().intValue() * 10);
         offer.setFinishDate(new Date(new Date().getTime() + offer.getEstimated_days() * 1000 * 60 * 60 * 24 * 5));
         offer.setStartDate(new Date(new Date().getTime() +  1000 * 60 * 60 * 24 * 5));
-        if(request.getSpecializationType().equals(SpecializationType.HOCHBAU)){
-            offer.setManHourCosts(request.getSquaremeters().intValue() * 200);
-            offer.setMaterialcosts(request.getSquaremeters().intValue() * 4);
-        } else {
-            offer.setManHourCosts(request.getSquaremeters().intValue() * 5);
-            offer.setMaterialcosts(request.getSquaremeters().intValue() * 2);
-        }
+        offer.setManHourCosts(request.getSquaremeters().intValue() * 200);
+        offer.setMaterialcosts(request.getSquaremeters().intValue() * 4);
+
+        offerDAO.saveJPA(offer);
 
         return offer;
     }
@@ -53,6 +55,15 @@ public class KostenvoranschlagsService {
     public Offer makeForHochbau(Exchange exchange) throws Exception {
         LOG.debug("we are making a Kostenvoranschlag for the Hochbau!");
 
-        return null;
+        Request request = exchange.getOut().getBody(Request.class);
+
+        Offer offer = makeForTiefbau(exchange);
+        offer.setDescription(offer.getDescription() + " for Tiefbau!!");
+        offer.setManHourCosts(request.getSquaremeters().intValue() * 5);
+        offer.setMaterialcosts(request.getSquaremeters().intValue() * 2);
+
+        offerDAO.saveJPA(offer);
+
+        return offer;
     }
 }

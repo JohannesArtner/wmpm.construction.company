@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by VanHelsing on 17.05.2016.
+ * Created by Johannes
  */
 
 @Component
@@ -28,10 +28,13 @@ public class ConstructionDecision extends RouteBuilder {
         from("direct:processRequest").process(processor).log("Request received!")
                 .choice()
                 .when(body().contains("Tiefbau"))
+                .log("Tiefbau was found and is now going to be processed!")
                 .to("bean:kostenvoranschlagsService?method=makeForTiefbau(${body})")
                 .when(body().contains("Hochbau"))
+                .log("Hochbau was found and is now going to be processed")
                 .to("bean:kostenvoranschlagsService?method=makeForHochbau(${body})")
                 .otherwise()
-                .to("mock:others");
+                .log("there is one request which is neither tiefbau nor hochbau!")
+                .to("bean:kostenvoranschlagsService?method=makeForHochbau(${body})");
     }
 }

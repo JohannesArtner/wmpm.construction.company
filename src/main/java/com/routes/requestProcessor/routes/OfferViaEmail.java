@@ -1,7 +1,6 @@
 package com.routes.requestProcessor.routes;
 
 import com.database.projectDB.model.Offer;
-import com.routes.requestProcessor.processors.DatabaseOfferProcessor;
 import org.apache.camel.*;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -17,7 +16,7 @@ import java.util.Map;
  * Created by Johannes on 24.05.2016.
  */
 public class OfferViaEmail  extends RouteBuilder {
-    static Logger logger = Logger.getLogger(OfferToDatabase.class);
+    static Logger logger = Logger.getLogger(OfferViaEmail.class);
 
     @Autowired
     private CamelContext context;

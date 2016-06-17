@@ -5,6 +5,10 @@ import com.database.projectDB.repository.OfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -49,5 +53,16 @@ public class OfferDAO {
 
     public long count(){
         return offerRepository.count();
+    }
+
+    public void saveJPA(Offer offer) {
+
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("camel");
+        EntityManager entityManager = factory.createEntityManager();
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(offer);
+        entityManager.getTransaction().commit();
+
     }
 }

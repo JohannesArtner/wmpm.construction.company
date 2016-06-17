@@ -6,16 +6,17 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import java.util.Date;
 
 /**
  * Created by rudolfplettenberg on 07.05.16.
  */
-@Entity
+@Entity(name = "Request")
 public class Request {
     @Id
     @JsonProperty("id")
-    private String id;
+    private long id;
 
     @JsonProperty("clientId")
     private long clientId;
@@ -38,6 +39,16 @@ public class Request {
     @JsonProperty("squaremeters")
     private Double squaremeters;
 
+    private boolean read = false;
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
     public Double getSquaremeters() {
         return squaremeters;
     }
@@ -49,11 +60,11 @@ public class Request {
     public Request() {
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
