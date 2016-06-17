@@ -57,6 +57,10 @@ public class Application implements CommandLineRunner {
         try {
             ProducerTemplate template = camelContext.createProducerTemplate();
         } finally {
+
+            while(true){
+
+            }
             //Not stopping Camelcontext so that outes stay alive and Rest can be tested
             //camelContext.stop();
         }

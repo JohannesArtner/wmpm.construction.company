@@ -19,7 +19,7 @@ import static org.apache.camel.model.rest.RestParamType.body;
  */
 @Component
 public class RestController extends AbstractRestRouteBuilder {
-    static Logger logger = Logger.getLogger(RestController.class.getName());
+    /*static Logger logger = Logger.getLogger(RestController.class.getName());
 
     @Override
     public void configure() throws Exception {
@@ -69,5 +69,5 @@ public class RestController extends AbstractRestRouteBuilder {
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
                 .setHeader(Exchange.CONTENT_TYPE, constant("text/plain"))
                 .setBody().constant("Invalid json data");
-    }
+    }*/
 }
