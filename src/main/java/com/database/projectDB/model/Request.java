@@ -7,12 +7,14 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * Created by rudolfplettenberg on 07.05.16.
  */
 @Entity(name = "Request")
+@Table(name = "request")
 public class Request {
     @Id
     @JsonProperty("id")

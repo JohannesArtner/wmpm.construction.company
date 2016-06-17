@@ -1,4 +1,4 @@
-package com.routes.requestProcessor.routes;
+package com.routes.requestProcessor.processors;
 
 /**
  * Created by Johannes on 09.06.2016.

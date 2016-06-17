@@ -8,6 +8,7 @@ import org.apache.camel.spi.Synchronization;
 import org.apache.camel.spi.UnitOfWork;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.*;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
 /**
  * Created by Johannes on 24.05.2016.
  */
+@org.springframework.stereotype.Component
 public class OfferViaEmail  extends RouteBuilder {
     static Logger logger = Logger.getLogger(OfferViaEmail.class);
 
@@ -25,10 +27,13 @@ public class OfferViaEmail  extends RouteBuilder {
     public void configure() throws Exception {
         logger.info("Route To send Email with offer to the customer.");
 
-        Endpoint dBEndpoint = context.getEndpoint("jpa://com.database.projectDB.model.Offer?consumer.namedQuery=selectAllOpen");
+        from("jpa://com.database.projectDB.model.Offer?consumer.namedQuery=selectAllOpen").to("direct:offerToPdf");
+
+        /*Endpoint dBEndpoint = context.getEndpoint("jpa://com.database.projectDB.model.Offer?consumer.namedQuery=selectAllOpen");
         dBEndpoint.start();
         PollingConsumer consumer = dBEndpoint.createPollingConsumer();
         consumer.start();
+
         Exchange exchange = consumer.receive();
 
         logger.info("The polling-consumer is polling the Offers, if he finds one, he will send an email to the Customer!");
@@ -36,17 +41,6 @@ public class OfferViaEmail  extends RouteBuilder {
         Endpoint pdfEndpoint = context.getEndpoint("direct:offerToPdf");
         Producer producer = pdfEndpoint.createProducer();
         producer.start();
-        producer.process(exchange);
-    }
-
-    public static void main(String[] args){
-        try {
-            OfferViaEmail offerViaEmail = new OfferViaEmail();
-            CamelContext context = new DefaultCamelContext();
-            offerViaEmail.context = context;
-            offerViaEmail.configure();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        producer.process(exchange);*/
     }
 }

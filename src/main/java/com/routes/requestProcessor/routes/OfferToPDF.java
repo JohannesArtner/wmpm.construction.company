@@ -1,16 +1,18 @@
 package com.routes.requestProcessor.routes;
 
+import com.routes.requestProcessor.processors.AppUtil;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.fop.FopConstants;
-import org.apache.camel.impl.DefaultCamelContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Johannes on 09.06.2016.
  */
+@Component
 public class OfferToPDF extends RouteBuilder {
 
 
