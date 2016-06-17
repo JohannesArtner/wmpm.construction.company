@@ -1,12 +1,14 @@
 package com.database.projectDB;
 
 import com.database.employeeDB.model.SpecializationType;
+import com.database.projectDB.model.Offer;
 import com.database.projectDB.model.Request;
 import com.database.projectDB.repository.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -16,6 +18,9 @@ import java.util.List;
 public class RequestDAO {
     @Autowired
     RequestRepository requestRepository;
+
+    @PersistenceUnit
+    EntityManagerFactory factory;
 
     public RequestDAO() {
     }
@@ -50,5 +55,14 @@ public class RequestDAO {
 
     public long count(){
         return requestRepository.count();
+    }
+
+    public void saveJPA(Request request) {
+        EntityManager entityManager = factory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        entityManager.persist(request);
+
+        entityManager.getTransaction().commit();
     }
 }
