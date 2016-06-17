@@ -7,6 +7,10 @@ import org.springframework.context.annotation.*;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
+
 
 @Configuration
 @ComponentScan(basePackages = {"com.configuration", "com.routes.offerProcessor.routes"})
@@ -16,18 +20,23 @@ public class GoogleConfigurations{
     @Bean(name = "google-calendar")
     public GoogleCalendarComponent googleCalendarComponent() throws Exception {
         //double entry, not sure if method above gets executed
+        InputStream in = new FileInputStream("config.properties");
+        Properties p = new Properties();
+        p.load(in);
+        String googleclientId = p.getProperty("googleclientId");
+        String googleclientSecret = p.getProperty("googleclientSecret");
+        String googlerefreshToken = p.getProperty("googlerefreshToken");
+        String googleaccessToken = p.getProperty("googleaccessToken");
+        String googleapplicationName = p.getProperty("googleapplicationName");
+
+        in.close();
         GoogleCalendarComponent googleCalendarComponent = new GoogleCalendarComponent();
-        String clientId = "716865151150-dlau4uabcejen6lnrh53s4ddua0qpmp9.apps.googleusercontent.com";
-        String clientSecret = "uJYmNBKA9JEGvnZRiseTlAbP";
-        String refreshToken = "1/swHBO1aEeWiubsF7yZacM805f25Ma3SvB5hy0fdgBbc";
-        String accessToken = "ya29.Ci8EAw6dazn60vAy-pp2qK3jHnHIBHD9_WrMngI8aG9_EKKu1EROSHVpPWbf3GYYbw";
-        String applicationName = "ConstructionCompany";
         GoogleCalendarConfiguration config = new GoogleCalendarConfiguration();
-        config.setClientId(clientId);
-        config.setClientSecret(clientSecret);
-        config.setRefreshToken(refreshToken);
-        config.setApplicationName(applicationName);
-        config.setAccessToken(accessToken);
+        config.setClientId(googleclientId);
+        config.setClientSecret(googleclientSecret);
+        config.setRefreshToken(googlerefreshToken);
+        config.setApplicationName(googleapplicationName);
+        config.setAccessToken(googleaccessToken);
         googleCalendarComponent.setConfiguration(config);
 
         return googleCalendarComponent;

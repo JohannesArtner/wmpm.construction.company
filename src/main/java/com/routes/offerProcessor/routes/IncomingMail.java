@@ -27,6 +27,7 @@ public class IncomingMail extends RouteBuilder {
         p.load(in);
         String login = p.getProperty("login");
         String pw = p.getProperty("pw");
+        in.close();
         //process and route it
         String route = String.format("imaps://imap.gmail.com?username=%s&password=%s&delete=false&unseen=true&consumer.delay=10000", login, pw);
         from(route).process(testDataProcessor).to("seda:newOfferReply");
