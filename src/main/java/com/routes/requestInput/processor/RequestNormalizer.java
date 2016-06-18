@@ -10,6 +10,8 @@ import org.apache.camel.Exchange;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+
 /**
  * Rudolf & Wailzer
  * Normalizes the two possible inputs (forms and Input)
@@ -49,8 +51,17 @@ public class RequestNormalizer {
     }
 
     public void emailToRequest(Exchange exchange){
-        MailInputModel mIM = new MailInputModel(exchange.getIn().getBody().toString(), exchange.getIn().getHeaders().toString());
+        logger.info("Normalizing Form Data: " + exchange.getIn().getBody().toString());
+        logger.info("WAS HERE");
+        logger.info("Debug message body for normalisation: "+exchange.getIn().getBody().toString());
 
+        MailInputModel mIM = new MailInputModel(exchange.getIn().getBody().toString(), exchange.getIn().getHeaders().toString());
+        //MailInputModel mIM  = exchange.getIn().getBody(MailInputModel.class);
+        try {
+            mIM.setAllPossibleParameters();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         Request request = new Request();
         request.setDateFrom(mIM.getDateFrom());
@@ -69,6 +80,10 @@ public class RequestNormalizer {
 
         logger.debug("Created Request: "+request.toString());
         logger.debug("Created Client: "+client.toString());
+
+        logger.info("WAS HERE2");
+        logger.info("Normalizing Form Data: " + exchange.getIn().getBody().toString());
+        logger.info("Debug message body for normalisation: "+exchange.getIn().getBody().toString());
 
 
         //Map<String,Object> body = new HashMap();
