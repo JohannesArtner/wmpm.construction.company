@@ -180,7 +180,7 @@ public class MailInputModel implements Serializable {
 
     @Override
     public String toString() {
-        return "RestFormInputModel{" +
+        return "emailFormInputModel{" +
                 "description='" + description + '\'' +
                 ", specializationType=" + specializationType +
                 ", dateFrom=" + dateFrom +
