@@ -14,7 +14,7 @@ import java.util.Locale;
  * Wailzer
  * Model of incoming requests by Mail
  */
-@ApiModel(description = "Represents an input of a request form")
+@ApiModel(description = "Represents an input of a request email")
 public class MailInputModel implements Serializable {
 
     private String bodyWithInformation;
@@ -65,7 +65,7 @@ public class MailInputModel implements Serializable {
 
 
     private static Date setDateParsing(String date) throws ParseException {
-        DateFormat format = new SimpleDateFormat("dd.mm.yyyy", Locale.GERMAN);
+        DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.GERMAN);
         return format.parse(date);
     }
 
