@@ -26,10 +26,8 @@ public class RouteToDatabase extends AbstractRestRouteBuilder {
                 .log("Persisting Data")
                 .process(databaseProcessor)
                 .log("wireTap to decision hochbau or tiefbau")
-         .wireTap("direct:processRequest")
-                //TODO!!! ON ERROR
+           .wireTap("direct:processRequest")
                 .log("sending reqeust to testProcessor")
         .to("bean:testProcessor?method=testEndpoint(${body.getClient()},${body.getRequest()})");
-                //.to("file:target/inbox") [Weiter zum ReqeustIntegrationRoute]
     }
 }
