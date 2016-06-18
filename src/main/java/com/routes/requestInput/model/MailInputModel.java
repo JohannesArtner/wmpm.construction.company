@@ -2,6 +2,7 @@ package com.routes.requestInput.model;
 
 import com.database.employeeDB.model.SpecializationType;
 import io.swagger.annotations.ApiModel;
+import org.apache.camel.Exchange;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -32,7 +33,14 @@ public class MailInputModel implements Serializable {
     private String telephone;
     private String email;
 
-    public MailInputModel(){
+    public MailInputModel(Exchange exchange){
+        this.bodyWithInformation = exchange.getIn().getBody().toString();
+        this.sender = exchange.getIn().getHeaders().toString();
+        try {
+            setAllPossibleParameters();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public MailInputModel(String bodyWithInformation, String sender){

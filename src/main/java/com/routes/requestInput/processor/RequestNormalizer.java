@@ -52,16 +52,18 @@ public class RequestNormalizer {
 
     public void emailToRequest(Exchange exchange){
         logger.info("Normalizing Form Data: " + exchange.getIn().getBody().toString());
+        logger.info("Log Header: " + exchange.getIn().getHeaders().toString());
         logger.info("WAS HERE");
-        logger.info("Debug message body for normalisation: "+exchange.getIn().getBody().toString());
 
-        MailInputModel mIM = new MailInputModel(exchange.getIn().getBody().toString(), exchange.getIn().getHeaders().toString());
+        //String temp = exchange.getIn().getBody().toString();
+        //String temp2 = exchange.getIn().getHeaders().toString();
+        MailInputModel mIM = new MailInputModel(exchange);
         //MailInputModel mIM  = exchange.getIn().getBody(MailInputModel.class);
-        try {
+        /*try {
             mIM.setAllPossibleParameters();
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
 
         Request request = new Request();
         request.setDateFrom(mIM.getDateFrom());
