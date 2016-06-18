@@ -20,10 +20,15 @@ public class RouteToDatabase extends AbstractRestRouteBuilder {
     public void configure() throws Exception {
         logger.info("Route To persist request data");
         logger.info("Route from Normalizer to Database");
+        onException(IllegalArgumentException.class).handled(true).to("file:target/inbox");
         from("seda:requestPersistance")
+                .transacted()
                 .log("Persisting Data")
                 .process(databaseProcessor)
-         .log("save to inbox for further processing")
+                .log("wireTap to decision hochbau or tiefbau")
+         .wireTap("direct:processRequest")
+                //TODO!!! ON ERROR
+                .log("sending reqeust to testProcessor")
         .to("bean:testProcessor?method=testEndpoint(${body.getClient()},${body.getRequest()})");
                 //.to("file:target/inbox") [Weiter zum ReqeustIntegrationRoute]
     }
