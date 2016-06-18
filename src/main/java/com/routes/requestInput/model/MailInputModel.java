@@ -32,6 +32,8 @@ public class MailInputModel implements Serializable {
     private String telephone;
     private String email;
 
+    public MailInputModel(){
+    }
 
     public MailInputModel(String bodyWithInformation, String sender){
         bodyWithInformation = this.bodyWithInformation;
@@ -39,17 +41,22 @@ public class MailInputModel implements Serializable {
     }
 
     public void setAllPossibleParameters() throws ParseException {
-        email = sender;
+
+        String[] part1 = sender.split("mailfrom=");
+        part1 = part1[0].split(",");
+        email = part1[0];
         //Mail BODY = #ABC_Description#Hochbau#1.1.2016#20.1.2016#...
+        //bodyWithInformation = bodyWithInformation.replaceAll("\n", "");
+        //bodyWithInformation = bodyWithInformation.replaceAll("\\n", "");
         String[] parts = bodyWithInformation.split("#");
         description  = parts[0];
 
         if(parts[1].equals("Hochbau")){
-            SpecializationType sp = SpecializationType.HOCHBAU;
+            specializationType = SpecializationType.HOCHBAU;
         }
 
         if(parts[1].equals("Tiefbau")){
-            SpecializationType sp = SpecializationType.TIEFBAU;
+            specializationType = SpecializationType.TIEFBAU;
         }
 
         dateFrom = setDateParsing(parts[2]);
@@ -65,7 +72,7 @@ public class MailInputModel implements Serializable {
 
 
     private static Date setDateParsing(String date) throws ParseException {
-        DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.GERMAN);
+        DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
         return format.parse(date);
     }
 
