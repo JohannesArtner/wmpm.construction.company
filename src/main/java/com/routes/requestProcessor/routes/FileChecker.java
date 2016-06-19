@@ -32,7 +32,7 @@ public class FileChecker extends RouteBuilder {
     public void configure() throws Exception {
         String path = "C:/Temp/camel/offerToPdf";
 
-        from("file://" + path + "?noop=true&move=.done").to("direct:sendViaEmail");
+        from("file://" + path + "?noop=true&move=.done").to("seda:sendViaEmail");
 
     }
 }
