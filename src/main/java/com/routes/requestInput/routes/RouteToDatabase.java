@@ -25,8 +25,8 @@ public class RouteToDatabase extends AbstractRestRouteBuilder {
                 .transacted()
                 .log("Persisting Data")
                 .process(databaseProcessor)
-                .log("wireTap to decision hochbau or tiefbau")
-           .wireTap("direct:processRequest")
+            //    .log("wireTap to decision hochbau or tiefbau")
+           //.wireTap("direct:processRequest")
                 .log("sending reqeust to testProcessor")
         .to("bean:testProcessor?method=testEndpoint(${body.getClient()},${body.getRequest()})");
     }
