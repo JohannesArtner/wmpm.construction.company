@@ -1,5 +1,6 @@
 package com.routes.requestProcessor.processors;
 
+import com.database.employeeDB.model.SpecializationType;
 import com.database.projectDB.model.Request;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -17,7 +18,15 @@ public class ProcessRequest implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        Request request = exchange.getIn().getBody(Request.class);
+        Request request = (Request) exchange.getIn().getBody();
+        request.setRead(true);
+
+        if(request.getSpecializationType().equals(SpecializationType.HOCHBAU)) {
+            exchange.getOut().setHeader("constructiontype", "hochbau");
+        } else if(request.getSpecializationType().equals(SpecializationType.TIEFBAU)){
+            exchange.getOut().setHeader("constructiontype", "tiefbau");
+        }
+
         exchange.getOut().setBody(request);
     }
 

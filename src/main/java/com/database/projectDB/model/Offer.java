@@ -16,7 +16,7 @@ import java.util.Date;
 @NamedQuery(name = "selectAllOpen", query = "select o from com.database.projectDB.model.Offer o where o.sent=false")
 public class Offer {
     @Id
-    private String id;
+    private long id;
 
     private long salesmanId;
     private Date createdAt;
@@ -26,6 +26,7 @@ public class Offer {
     private Request request;
     private String description;
 
+    private boolean read = false;
     private boolean sent = false;
 
     //Time
@@ -37,15 +38,24 @@ public class Offer {
     private double manhours;
     private double manHourCosts;
     private double materialcosts;
+    private String emailCostumer;
 
     public Offer() {
     }
 
-    public String getId() {
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -140,18 +150,26 @@ public class Offer {
     @Override
     public String toString() {
         return "Offer{" +
-                "id='" + id + '\'' +
-                ", salesmanId=" + salesmanId +
-                ", createdAt=" + createdAt +
-                ", clientId=" + clientId +
-                ", request=" + request +
-                ", description='" + description + '\'' +
-                ", startDate=" + startDate +
-                ", finishDate=" + finishDate +
-                ", estimated_days=" + estimated_days +
-                ", manhours=" + manhours +
-                ", manHourCosts=" + manHourCosts +
-                ", materialcosts=" + materialcosts +
+                "\n id='" + id + '\'' +
+                "\n, salesmanId=" + salesmanId +
+                "\n, createdAt=" + createdAt +
+                "\n, clientId=" + clientId +
+                "\n, request=" + request +
+                "\n, description='" + description + '\'' +
+                "\n, startDate=" + startDate +
+                "\n, finishDate=" + finishDate +
+                "\n, estimated_days=" + estimated_days +
+                "\n, manhours=" + manhours +
+                "\n, manHourCosts=" + manHourCosts +
+                "\n, materialcosts=" + materialcosts +
                 '}';
+    }
+
+    public void setEmailCostumer(String emailCostumer) {
+        this.emailCostumer = emailCostumer;
+    }
+
+    public String getEmailCostumer() {
+        return emailCostumer;
     }
 }

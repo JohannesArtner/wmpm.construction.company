@@ -1,5 +1,6 @@
 package com.routes.requestProcessor.routes;
 
+import com.database.projectDB.model.Offer;
 import com.routes.requestProcessor.processors.AppUtil;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
@@ -23,13 +24,20 @@ public class OfferToPDF extends RouteBuilder {
     public void configure() throws Exception {
         String readDir = "c:/Temp/camel/offerToPdf";
 
-        from("direct:offerToPdf")
+        from("seda:offerToPdf")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
-                        final String body = exchange.getIn().getBody(String.class);
+
+                        final Offer offer = (Offer) exchange.getIn().getBody();
+
+
+                        String text;
+                        text = "Hello Customer!\n We can make you the following Offer:\n";
+                        text += offer.toString();
+
                         final String fileNameWithoutExtension = AppUtil.getFileNameWithoutExtension(exchange);
-                        final String convertToXSLFOBody = AppUtil.getFilledXSLFO(body);
+                        final String convertToXSLFOBody = AppUtil.getFilledXSLFO(text);
                         exchange.getIn().setBody(convertToXSLFOBody);
                         exchange.getIn().setHeader(Exchange.FILE_NAME, fileNameWithoutExtension + ".pdf");
                         exchange.getIn().setHeader(FopConstants.CAMEL_FOP_RENDER + "author", "The construction company");

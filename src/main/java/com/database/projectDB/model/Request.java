@@ -41,6 +41,17 @@ public class Request {
     @JsonProperty("squaremeters")
     private Double squaremeters;
 
+    @JsonProperty("emailCustomer")
+    private String emailCustomer;
+
+    public String getEmailCustomer() {
+        return emailCustomer;
+    }
+
+    public void setEmailCustomer(String emailCustomer) {
+        this.emailCustomer = emailCustomer;
+    }
+
     private boolean read = false;
 
     public boolean isRead() {

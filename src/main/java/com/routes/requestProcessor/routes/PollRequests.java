@@ -2,10 +2,7 @@ package com.routes.requestProcessor.routes;
 
 import com.database.employeeDB.model.SpecializationType;
 import com.database.projectDB.RequestDAO;
-import com.database.projectDB.model.Offer;
 import com.database.projectDB.model.Request;
-import com.routes.requestProcessor.processors.ProcessRequest;
-import com.services.KostenvoranschlagsService;
 import com.services.RequestService;
 import org.apache.camel.*;
 import org.apache.camel.builder.RouteBuilder;
@@ -14,9 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.Date;
 
 /**
@@ -25,7 +19,7 @@ import java.util.Date;
 
 @Component
 public class PollRequests extends RouteBuilder {
-    private static final Logger LOG = LoggerFactory.getLogger(ProcessRequest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PollRequests.class);
 
     @Autowired
     RequestService requestService;
@@ -35,9 +29,6 @@ public class PollRequests extends RouteBuilder {
 
     @Autowired
     CamelContext context;
-
-    @Autowired
-    ProcessRequest processor;
 
 
     @Override
@@ -52,6 +43,7 @@ public class PollRequests extends RouteBuilder {
                     request.setDescription("This is a dummy request!");
                     request.setDateFrom(new Date());
                     request.setDateTo(new Date());
+                    request.setEmailCustomer("johannes.artner@gmx.at");
                     request.setLocation("Vienna");
                     request.setSpecializationType(SpecializationType.HOCHBAU);
                     request.setSquaremeters(500.0);
@@ -60,7 +52,7 @@ public class PollRequests extends RouteBuilder {
                     requestDAO.saveJPA(request);
 
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(20000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

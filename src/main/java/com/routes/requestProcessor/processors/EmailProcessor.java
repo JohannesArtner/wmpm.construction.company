@@ -65,9 +65,6 @@ public class EmailProcessor implements Processor{
         template.start();
         exchange = endpointEmail.createExchange();
 
-
-
-
         Map<String, Object> headers = null;
         headers = new HashMap<String, Object>();
         headers.put("Subject", "This is your special Offer!");
@@ -77,7 +74,6 @@ public class EmailProcessor implements Processor{
         in.setHeaders(headers);
 
         exchange.setOut(exchange.getIn());
-
 
         template.send(endpointEmail, exchange);
         template.sendBodyAndHeaders(endpointEmail, body, headers);

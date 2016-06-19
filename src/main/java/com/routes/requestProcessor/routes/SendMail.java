@@ -24,6 +24,6 @@ public class SendMail extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:sendViaEmail").process(emailProcessor);
+        from("seda:sendViaEmail").process(emailProcessor);
     }
 }

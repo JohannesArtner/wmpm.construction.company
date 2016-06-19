@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ConstructionDecision extends RouteBuilder {
-    private static final Logger LOG = LoggerFactory.getLogger(ProcessRequest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ConstructionDecision.class);
 
     @Autowired
     RequestService requestService;
@@ -22,19 +22,20 @@ public class ConstructionDecision extends RouteBuilder {
     @Autowired
     ProcessRequest processor;
 
+
     @Override
     public void configure() throws Exception {
 
         from("direct:processRequest").process(processor).log("Request received!")
                 .choice()
-                .when(body().contains("Tiefbau"))
+                .when(header("constructiontype").isEqualTo("tiefbau"))
                 .log("Tiefbau was found and is now going to be processed!")
                 .to("bean:kostenvoranschlagsService?method=makeForTiefbau(${body})")
-                .when(body().contains("Hochbau"))
+                .when(header("constructiontype").isEqualTo("hochbau"))
                 .log("Hochbau was found and is now going to be processed")
                 .to("bean:kostenvoranschlagsService?method=makeForHochbau(${body})")
                 .otherwise()
                 .log("there is one request which is neither tiefbau nor hochbau!")
-                .to("bean:kostenvoranschlagsService?method=makeForHochbau(${body})");
+                .to("mock:others");//TODO: dead letter channel!?
     }
 }
