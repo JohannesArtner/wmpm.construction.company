@@ -9,12 +9,12 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by rudolfplettenberg on 19.05.16.
+ * Route from incoming REST POST /form to normalizer
+ *
+ * Also includes validation
  */
 @Component
 public class RouteRequestFormInputToNormalizer extends AbstractRestRouteBuilder {
-
-    static Logger logger = Logger.getLogger(RouteRequestFormInputToNormalizer.class.getName());
 
     @Override
     public void configure() throws Exception {
@@ -27,17 +27,12 @@ public class RouteRequestFormInputToNormalizer extends AbstractRestRouteBuilder 
 
         from("direct:incomingForm")
                 .log("Incoming Request from a form")
+                // Validation
                 .process(new RequestValidationProcessor())
                 .log("Request is valid")
-                .process(new Processor() {
-                    public void process(Exchange exchange) throws Exception {
-                        //set Header origin to form
-                        logger.info("Setting headers");
-                        exchange.getIn().setHeader("origin", "form");
-                        logger.info("Debug message body: "+exchange.getIn().getBody().toString());
-                    }
-                })
-                .log("Added header")
+                // If valid set headers
+                .setHeader("origin",constant("form"))
+                .log("Header origin set to 'form'")
                 .to("seda:requestNormalizerQueue");
     }
 

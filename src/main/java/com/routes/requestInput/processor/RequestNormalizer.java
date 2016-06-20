@@ -32,6 +32,7 @@ public class RequestNormalizer {
         request.setDescription(restFormInputModel.getDescription());
         request.setSpecializationType(restFormInputModel.getSpecializationType());
         request.setSquaremeters(restFormInputModel.getSquaremeter());
+        request.setLocation(restFormInputModel.getLocation());
 
         Client client = new Client();
         client.setClientFirstname(restFormInputModel.getClientFirstname());
