@@ -1,36 +1,46 @@
 package com.routes.requestInput.routes;
 
+import com.Application;
 import com.builder.ClientBuilder;
 import com.builder.RequestBuilder;
 import com.builder.RestFormInputModelBuilder;
 import com.database.clientDB.model.Client;
 import com.database.employeeDB.model.SpecializationType;
 import com.database.projectDB.model.Request;
+import com.routes.requestInput.exception.NormalizationException;
 import com.routes.requestInput.model.NormalizedInput;
 import com.routes.requestInput.model.RestFormInputModel;
+import com.routes.requestInput.processor.LoggerProcessor;
+import com.routes.requestInput.processor.ReouteRequestNormalizerFailureHandler;
 import com.routes.requestInput.processor.RequestNormalizer;
 import com.routes.requestInput.routes.RouteRequestNormalizer;
-import org.apache.camel.EndpointInject;
-import org.apache.camel.Exchange;
-import org.apache.camel.Produce;
-import org.apache.camel.ProducerTemplate;
+import org.apache.camel.*;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
+import org.apache.camel.model.ModelCamelContext;
+import org.apache.camel.osgi.SpringCamelContextFactory;
+import org.apache.camel.spring.SpringCamelContext;
 import org.apache.camel.spring.javaconfig.SingleRouteCamelConfiguration;
 import org.apache.camel.test.junit4.CamelTestSupport;
-import org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader;
-import org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner;
+import org.apache.camel.test.spring.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.BootstrapWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionException;
+import org.springframework.transaction.TransactionStatus;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,33 +53,20 @@ import static org.junit.Assert.*;
  * Unit tests for RouteRequestNormalizer
  */
 @RunWith(CamelSpringJUnit4ClassRunner.class)
+//@ContextConfiguration(classes={Application.class})
 @ContextConfiguration(classes = {RouteRequestNormalizerUT.ContextConfig.class}, loader = CamelSpringDelegatingTestContextLoader.class)
+@MockEndpoints
 public class RouteRequestNormalizerUT extends AbstractJUnit4SpringContextTests {
+
 
     //Context configuration for Test
     @Configuration
-    public static class ContextConfig extends SingleRouteCamelConfiguration {
+        public static class ContextConfig extends SingleRouteCamelConfiguration{
+
+
         @Bean
         public RouteBuilder route() {
-            return new RouteBuilder() {
-                public void configure() {
-                    from(fromEndpoint)
-                        .choice()
-                            .when(header("origin").isEqualTo("form"))
-                            .log("'origin' = 'form")
-                            .to("bean:requestNormalizer?method=formToRequest")
-                            .when(header("origin").isEqualTo("email"))
-                            .log("'origin' = 'email")
-                            .to("bean:requestNormalizer?method=emailToRequest")
-                            .end()
-                    .to(toMockEnpoint);
-
-                    /*new RouteRequestNormalizer();
-                    interceptSendToEndpoint("seda:requestPersistance")
-                            .skipSendToOriginalEndpoint()
-                            .to(toMockEnpoint);*/
-                }
-            };
+            return new RouteRequestNormalizer();
         }
         @Bean
         public RequestNormalizer requestNormalizer(){
@@ -77,11 +74,16 @@ public class RouteRequestNormalizerUT extends AbstractJUnit4SpringContextTests {
         }
 
     }
+
     private static final String fromEndpoint = "seda:requestNormalizerQueue";
-    private static final String toMockEnpoint = "mock:requestPersistance";
+    private static final String toMockEnpoint = "mock:seda:requestPersistance";
+    private static final String errorEndpointAddress = "mock:direct:normalizationError";
 
     @EndpointInject(uri = toMockEnpoint)
     protected MockEndpoint resultEndpoint;
+    @EndpointInject(uri = errorEndpointAddress)
+    protected MockEndpoint errorEndpoint;
+
     @Produce(uri = fromEndpoint)
     protected ProducerTemplate template;
 
@@ -138,22 +140,29 @@ public class RouteRequestNormalizerUT extends AbstractJUnit4SpringContextTests {
 
     }
 
-
-    @DirtiesContext
-    @Test
-    public void normalizeFormInput_success() throws Exception {
-
-        resultEndpoint.expectedBodiesReceived(expectedNormalizedInput);
-        template.sendBodyAndHeader(validFormInput, "origin", "form");
-        resultEndpoint.assertIsSatisfied();
-
-    }
-
-
     @Test
     public void alwaysSuccess(){
         assertTrue(true);
     }
+
+    @DirtiesContext
+    @Test
+    public void normalizeFormInput_success() throws Exception {
+        resultEndpoint.expectedBodiesReceived(expectedNormalizedInput);
+        template.sendBodyAndHeader(validFormInput, "origin", "form");
+        resultEndpoint.assertIsSatisfied();
+    }
+
+    @Test
+    @DirtiesContext
+    public void normalizeFormInput_shouldFail() throws Exception {
+        errorEndpoint.expectedBodiesReceived("Origin is Form but not a valid RestFormInputModel in Message");
+        template.sendBodyAndHeader("Wrong Body", "origin", "form");
+        errorEndpoint.assertIsSatisfied();
+    }
+
+
+
 
 
 

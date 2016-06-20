@@ -1,5 +1,6 @@
 package com.routes.requestInput.routes;
 
+import com.routes.requestInput.exception.NormalizationException;
 import com.routes.requestInput.processor.LoggerProcessor;
 import com.routes.requestInput.processor.ReouteRequestNormalizerFailureHandler;
 import org.apache.camel.builder.RouteBuilder;
@@ -18,8 +19,8 @@ public class RouteRequestNormalizer extends AbstractRestRouteBuilder {
     public void configure() throws Exception {
         logger.info("Route from Normalizer to Database");
         onException(NullPointerException.class).process(new ReouteRequestNormalizerFailureHandler()).stop();
+        onException(NormalizationException.class).setBody(simple("${exception.message}")).to("direct:normalizationError");
         from("seda:requestNormalizerQueue").routeId("routeRequestNormalizer")
-                .transacted()
                 .log("Starting normalization")
                 .choice()
                 .when(header("origin").isEqualTo("form"))

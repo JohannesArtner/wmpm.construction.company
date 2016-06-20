@@ -23,7 +23,8 @@ public class RouteRequestFormInputToNormalizer extends AbstractRestRouteBuilder 
                 .handled(true)
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
                 .setHeader(Exchange.CONTENT_TYPE, constant("text/plain"))
-                .setBody().simple("Invalid Form data: ${exception.message}");
+                .setBody().simple("Invalid Form data: ${exception.message}")
+                .to("mock:direct:validationError");
 
         from("direct:incomingForm")
                 .log("Incoming Request from a form")
