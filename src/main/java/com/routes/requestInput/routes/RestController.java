@@ -19,7 +19,7 @@ import static org.apache.camel.model.rest.RestParamType.body;
  */
 @Component
 public class RestController extends AbstractRestRouteBuilder {
-    /*static Logger logger = Logger.getLogger(RestController.class.getName());
+    static Logger logger = Logger.getLogger(RestController.class.getName());
 
     @Override
     public void configure() throws Exception {
@@ -45,10 +45,10 @@ public class RestController extends AbstractRestRouteBuilder {
                 .post().description("Post request").type(RestFormInputModel.class)
                 .param().name("body").type(body).description("The form input of a request").endParam()
                 .responseMessage().code(200).message("Request created").endResponseMessage()
-                .to("direct:incomingForm");
+                .to("direct:incomingForm")
 
-                //.get().description("Get all Requests").outTypeList(Request.class)
-                //.to("mongodb:myDb?database=test&collection=request&operation=findAll");
+                .get().description("Get all Requests").outTypeList(Request.class)
+                .to("mongodb:myDb?database=test&collection=request&operation=findAll");
 
         rest("clients").description("Client Rest Service")
                 .consumes("application/json").produces("application/json")
@@ -69,5 +69,5 @@ public class RestController extends AbstractRestRouteBuilder {
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
                 .setHeader(Exchange.CONTENT_TYPE, constant("text/plain"))
                 .setBody().constant("Invalid json data");
-    }*/
+    }
 }

@@ -18,18 +18,18 @@ public class RouteRequestNormalizer extends AbstractRestRouteBuilder {
     public void configure() throws Exception {
         logger.info("Route from Normalizer to Database");
         onException(NullPointerException.class).process(new ReouteRequestNormalizerFailureHandler()).stop();
-        from("seda:requestNormalizerQueue")
+        from("seda:requestNormalizerQueue").routeId("routeRequestNormalizer")
                 .transacted()
                 .log("Starting normalization")
                 .choice()
                 .when(header("origin").isEqualTo("form"))
-                    .log("Form origin detected")
+                    .log("'origin' = 'form")
                     .to("bean:requestNormalizer?method=formToRequest")
                 .when(header("origin").isEqualTo("email"))
-                    .log("Email origin detected")
+                    .log("'origin' = 'email")
                     .to("bean:requestNormalizer?method=emailToRequest")
                 .end()
-                .log("Finished Normalization")
+                .log("Finished Normalization of Message")
                 .process(new LoggerProcessor())
         .to("seda:requestPersistance");
     }
