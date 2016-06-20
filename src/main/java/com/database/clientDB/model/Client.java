@@ -92,4 +92,34 @@ public class Client {
                 ", clientLastname='" + clientLastname + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Client client = (Client) o;
+
+        if (id != client.id) return false;
+        if (companyName != null ? !companyName.equals(client.companyName) : client.companyName != null) return false;
+        if (address != null ? !address.equals(client.address) : client.address != null) return false;
+        if (telephone != null ? !telephone.equals(client.telephone) : client.telephone != null) return false;
+        if (email != null ? !email.equals(client.email) : client.email != null) return false;
+        if (clientFirstname != null ? !clientFirstname.equals(client.clientFirstname) : client.clientFirstname != null)
+            return false;
+        return clientLastname != null ? clientLastname.equals(client.clientLastname) : client.clientLastname == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (companyName != null ? companyName.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (telephone != null ? telephone.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (clientFirstname != null ? clientFirstname.hashCode() : 0);
+        result = 31 * result + (clientLastname != null ? clientLastname.hashCode() : 0);
+        return result;
+    }
 }

@@ -23,6 +23,8 @@ public class PollOffers extends RouteBuilder {
     public void configure() throws Exception {
         logger.info("Route To send Email with offer to the customer.");
 
+        errorHandler(deadLetterChannel("jms:queue:dead"));
+
         from("jpa://com.database.projectDB.model.Offer?consumer.namedQuery=selectAllOpen").process(processor).to("seda:offerToPdf");
     }
 }

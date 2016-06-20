@@ -14,4 +14,8 @@ public class TestProcessor {
     public void testEndpoint(Client client, Request request){
 
     }
+
+    public void testEndpoint(){
+
+    }
 }

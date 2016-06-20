@@ -2,6 +2,7 @@ package com.routes.requestInput.processor;
 
 import com.database.clientDB.model.Client;
 import com.database.projectDB.model.Request;
+import com.routes.requestInput.exception.NormalizationException;
 import com.routes.requestInput.model.MailInputModel;
 import com.routes.requestInput.routes.RouteRequestFormInputToNormalizer;
 import com.routes.requestInput.model.NormalizedInput;
@@ -21,9 +22,14 @@ public class RequestNormalizer {
     static Logger logger = Logger.getLogger(RequestNormalizer.class.getName());
 
 
-    public void formToRequest(Exchange exchange) {
+    public void formToRequest(Exchange exchange) throws NormalizationException{
         logger.info("Normalizing Form Data: "+exchange.getIn().getBody().toString());
         RestFormInputModel restFormInputModel = exchange.getIn().getBody(RestFormInputModel.class);
+
+
+        if(restFormInputModel == null){
+            throw new NormalizationException("Origin is Form but not a valid RestFormInputModel in Message");
+        }
 
 
         Request request = new Request();
@@ -32,6 +38,7 @@ public class RequestNormalizer {
         request.setDescription(restFormInputModel.getDescription());
         request.setSpecializationType(restFormInputModel.getSpecializationType());
         request.setSquaremeters(restFormInputModel.getSquaremeter());
+        request.setLocation(restFormInputModel.getLocation());
 
         Client client = new Client();
         client.setClientFirstname(restFormInputModel.getClientFirstname());
