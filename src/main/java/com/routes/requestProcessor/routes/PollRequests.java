@@ -33,6 +33,9 @@ public class PollRequests extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+
+        errorHandler(deadLetterChannel("jms:queue:dead"));
+
         from("jpa://com.database.projectDB.model.Request?persistenceUnit=camel&consumer.query=select o from Request o").
                 to("direct:processRequest");
 

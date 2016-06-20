@@ -26,6 +26,8 @@ public class ConstructionDecision extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
+        errorHandler(deadLetterChannel("jms:queue:dead"));
+
         from("direct:processRequest").process(processor).log("Request received!")
                 .choice()
                 .when(header("constructiontype").isEqualTo("tiefbau"))
@@ -36,6 +38,6 @@ public class ConstructionDecision extends RouteBuilder {
                 .to("bean:kostenvoranschlagsService?method=makeForHochbau(${body})")
                 .otherwise()
                 .log("there is one request which is neither tiefbau nor hochbau!")
-                .to("mock:others");//TODO: dead letter channel!?
+                .to("jms:queue:dead");
     }
 }
