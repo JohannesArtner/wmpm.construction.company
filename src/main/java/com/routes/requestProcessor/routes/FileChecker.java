@@ -32,6 +32,8 @@ public class FileChecker extends RouteBuilder {
     public void configure() throws Exception {
         String path = "C:/Temp/camel/offerToPdf";
 
+        errorHandler(deadLetterChannel("jms:queue:dead"));
+
         from("file://" + path + "?noop=true&move=.done").to("seda:sendViaEmail");
 
     }
