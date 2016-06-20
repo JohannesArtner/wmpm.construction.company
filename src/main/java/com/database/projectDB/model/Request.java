@@ -141,4 +141,40 @@ public class Request {
                 ", location='" + location + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Request request = (Request) o;
+
+        if (id != request.id) return false;
+        if (clientId != request.clientId) return false;
+        if (read != request.read) return false;
+        if (description != null ? !description.equals(request.description) : request.description != null) return false;
+        if (specializationType != request.specializationType) return false;
+        if (dateFrom != null ? !dateFrom.equals(request.dateFrom) : request.dateFrom != null) return false;
+        if (dateTo != null ? !dateTo.equals(request.dateTo) : request.dateTo != null) return false;
+        if (location != null ? !location.equals(request.location) : request.location != null) return false;
+        if (squaremeters != null ? !squaremeters.equals(request.squaremeters) : request.squaremeters != null)
+            return false;
+        return emailCustomer != null ? emailCustomer.equals(request.emailCustomer) : request.emailCustomer == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (int) (clientId ^ (clientId >>> 32));
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (specializationType != null ? specializationType.hashCode() : 0);
+        result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
+        result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (squaremeters != null ? squaremeters.hashCode() : 0);
+        result = 31 * result + (emailCustomer != null ? emailCustomer.hashCode() : 0);
+        result = 31 * result + (read ? 1 : 0);
+        return result;
+    }
 }
