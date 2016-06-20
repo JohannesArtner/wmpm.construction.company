@@ -24,6 +24,8 @@ public class SendMail extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        errorHandler(deadLetterChannel("jms:queue:dead"));
+
         from("seda:sendViaEmail").process(emailProcessor);
     }
 }

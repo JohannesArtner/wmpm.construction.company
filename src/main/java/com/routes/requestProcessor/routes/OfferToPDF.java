@@ -24,6 +24,8 @@ public class OfferToPDF extends RouteBuilder {
     public void configure() throws Exception {
         String readDir = "c:/Temp/camel/offerToPdf";
 
+        errorHandler(deadLetterChannel("jms:queue:dead"));
+
         from("seda:offerToPdf")
                 .process(new Processor() {
                     @Override
