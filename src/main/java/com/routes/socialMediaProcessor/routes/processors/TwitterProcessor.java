@@ -17,14 +17,6 @@ public class TwitterProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         OfferAcceptionModel oa = (OfferAcceptionModel)exchange.getIn().getBody();
 
-        /**
-         * Set java object to store attributes
-         * Example email format:
-         * 1 - ID of offer in db
-         * OK - response: is 'OK' if accepted, NOT if not
-         * "Please include a swimming pool" - responseNotes: some other line with info
-         */
-
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
 

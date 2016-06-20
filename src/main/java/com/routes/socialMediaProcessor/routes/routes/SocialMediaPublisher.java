@@ -31,15 +31,13 @@ public class SocialMediaPublisher extends RouteBuilder {
 
         from("direct:createSocialMediaPost")
 
-                //.multicast()
-
                 .process(new TwitterProcessor())
                 .log("TWITTER PROCESSOR REACHED")
                 .to(twitterRoute)
 
 
                 .process(new FacebookProcessor())
-                .log("FACEBOOK .to REACHED")
+                .log("FACEBOOK PROCESSOR REACHED")
                 .to("facebook://postFeed?inBody=postUpdate&oAuthAppId=1556856541283678&oAuthAppSecret=6b5f95106e108e957bf7f2c42b4bd3a9&oAuthAccessToken=EAAWH8ZBkcBV4BAIr64UYkDcQJ3QSDEGel3ZCud78ItPi61ENkbK6nQKbsxgd9eFUrLtx9ZAcA882ss3ce7jWlXZBBv29ywmdNv1kXropWSBPiEmmjConR7I1bqK4homPUuZBFv5hSZB2ESOjlIDuZB3bV4in47n6CRZAMBKzEBr5qwZDZD&oAuthPermissions=publish_actions")
 
                 .to("jms:queue:dead");

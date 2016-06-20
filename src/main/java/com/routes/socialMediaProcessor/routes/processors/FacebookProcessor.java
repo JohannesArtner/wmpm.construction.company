@@ -20,22 +20,23 @@ public class FacebookProcessor implements Processor {
 
         OfferAcceptionModel oa = (OfferAcceptionModel)exchange.getIn().getBody();
 
-        Facebook facebook = new FacebookFactory().getInstance();
-
+        //Facebook4J Approach
         String appId = "1556856541283678";
         String appSecret = "6b5f95106e108e957bf7f2c42b4bd3a9";
         String accessToken = "EAAWH8ZBkcBV4BABT8xBeMvXSE51gjyChW2FjBokNCyOA79sVvdSGq4KymhdC3TZCVPn6xbRdNwrlkwY0hjPu7Ll0yph9GbLyZCW0CIXFY84G6kIgEVHhLhZBHW10hsTrLWjpaokg23DvJmiNEZCoAT2QSHJoNTnd0UomfZBcsuNgZDZD";
-
+        Facebook facebook = new FacebookFactory().getInstance();
         facebook.setOAuthAppId(appId, appSecret);
         facebook.setOAuthPermissions("publish_actions");
         facebook.setOAuthAccessToken(new AccessToken(accessToken, null));
 
+        // Camel Facebook route expects a Facebook4J.PostUpdate object
         PostUpdate post = new PostUpdate(new URL("http://facebook4j.org"))
                 .picture(new URL("http://facebook4j.org/images/hero.png"))
                 .name("Facebook4J - A Java library for the Facebook Graph API")
                 .caption("facebook4j.org")
                 .description(oa.getCustomerName() + " // " + oa.getCustomerMail());
 
+        //Facebook4J Approach
         //facebook.postFeed(post);
 
         exchange.getOut().setBody(post);
