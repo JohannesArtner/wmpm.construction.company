@@ -11,7 +11,7 @@ import java.util.Date;
 public class RequestBuilder {
     private Request request = new Request();
 
-    public RequestBuilder id(long id){
+    public RequestBuilder id(String id){
         request.setId(id);
         return this;
     }

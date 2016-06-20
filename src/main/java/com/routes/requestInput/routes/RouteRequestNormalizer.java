@@ -12,12 +12,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RouteRequestNormalizer extends AbstractRestRouteBuilder {
-
-    static Logger logger = Logger.getLogger(RouteRequestFormInputToNormalizer.class.getName());
-
     @Override
     public void configure() throws Exception {
-        logger.info("Route from Normalizer to Database");
         onException(NullPointerException.class).process(new ReouteRequestNormalizerFailureHandler()).stop();
         onException(NormalizationException.class).setBody(simple("${exception.message}")).to("direct:normalizationError");
         from("seda:requestNormalizerQueue").routeId("routeRequestNormalizer")

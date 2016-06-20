@@ -28,6 +28,8 @@ public class RouteToDatabase extends AbstractRestRouteBuilder {
             //    .log("wireTap to decision hochbau or tiefbau")
            //.wireTap("direct:processRequest")
                 .log("sending reqeust to testProcessor")
-        .to("bean:testProcessor?method=testEndpoint(${body.getClient()},${body.getRequest()})");
+        .to("mock:somefurthersteps");
+
+        //.to("bean:testProcessor?method=testEndpoint(${body.getClient()},${body.getRequest()})");
     }
 }

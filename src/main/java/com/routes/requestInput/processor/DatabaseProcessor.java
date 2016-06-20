@@ -1,6 +1,7 @@
 package com.routes.requestInput.processor;
 
 import com.database.clientDB.ClientDAO;
+import com.database.clientDB.model.Client;
 import com.database.projectDB.RequestDAO;
 import com.database.projectDB.model.Request;
 import com.routes.requestInput.model.NormalizedInput;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,11 +40,23 @@ public class DatabaseProcessor implements Processor {
             logger.info("!!! SERVICE IS NULL !!!");
         }
 
-        long id = clientDAO.save(body.getClient()).getId();
+        Client createdClient = clientDAO.save(body.getClient());
+        long id = createdClient.getId();
 
+        logger.info("New Client created: "+createdClient.toString());
         Request r = body.getRequest();
         r.setClientId(id);
+        logger.info("New Request created: "+r.toString());
         requestDAO.save(r);
         logger.info("Save complete");
+
+
+        List<Request> requests = requestDAO.findAll();
+        logger.info("-------------------------------");
+        logger.info("Requests in DB: "+requests.size());
+        for(Request rr: requests){
+            logger.info(rr.toString());
+        }
+
     }
 }

@@ -38,9 +38,9 @@ public class RestController extends AbstractRestRouteBuilder {
                 .apiProperty("cors", "true");
 
 
+        // /requests
         rest("/requests").description("Request rest service")
                 .consumes("application/json").produces("application/json")
-
 
                 .post().description("Post request").type(RestFormInputModel.class)
                 .param().name("body").type(body).description("The form input of a request").endParam()
@@ -50,11 +50,19 @@ public class RestController extends AbstractRestRouteBuilder {
                 .get().description("Get all Requests").outTypeList(Request.class)
                 .to("mongodb:myDb?database=test&collection=request&operation=findAll");
 
+
+        // /clients
         rest("clients").description("Client Rest Service")
                 .consumes("application/json").produces("application/json")
 
                 .get().description("Get all Clients").outTypeList(Client.class)
-                .to("bean:clientDAO?method=findAll()");
+                .to("bean:clientDAO?method=findAll()")
+
+                .post().description("Post client").type(RestFormInputModel.class)
+                .param().name("body").type(body).description("Client to save in the DB").endParam()
+                .responseMessage().code(200).message("Client created").endResponseMessage()
+                .to("jpa://com.database.clientDB.model.Client");
+
 
         //Project manager Rest
         rest("pm").description("Projectmanager Rest Service")
@@ -63,11 +71,5 @@ public class RestController extends AbstractRestRouteBuilder {
                 .get().description("Get all Clients").outTypeList(ProjectManager.class)
                 .to("bean:employeeDAO?method=findAllProjectManagers()");
 
-        onException(JsonParseException.class)
-                .log("JsonParseException: ${exception.message}")
-                .handled(true)
-                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
-                .setHeader(Exchange.CONTENT_TYPE, constant("text/plain"))
-                .setBody().constant("Invalid json data");
     }
 }

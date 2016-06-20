@@ -4,10 +4,7 @@ import com.database.employeeDB.model.SpecializationType;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -17,8 +14,9 @@ import java.util.Date;
 @Table(name = "request")
 public class Request {
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     @JsonProperty("id")
-    private long id;
+    private String id;
 
     @JsonProperty("clientId")
     private long clientId;
@@ -73,11 +71,11 @@ public class Request {
     public Request() {
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -149,9 +147,9 @@ public class Request {
 
         Request request = (Request) o;
 
-        if (id != request.id) return false;
         if (clientId != request.clientId) return false;
         if (read != request.read) return false;
+        if (id != null ? !id.equals(request.id) : request.id != null) return false;
         if (description != null ? !description.equals(request.description) : request.description != null) return false;
         if (specializationType != request.specializationType) return false;
         if (dateFrom != null ? !dateFrom.equals(request.dateFrom) : request.dateFrom != null) return false;
@@ -165,7 +163,7 @@ public class Request {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (int) (clientId ^ (clientId >>> 32));
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (specializationType != null ? specializationType.hashCode() : 0);
