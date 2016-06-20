@@ -30,7 +30,7 @@ public class TwitterProcessor implements Processor {
 
         String out = dateFormat.format(date).toString().concat("; PROJECT" + oa.getProjectId() + " TESTING BY MAX: " + oa.getCustomerName());
 
-       exchange.getOut().setBody(out);
+        exchange.getOut().setBody(out);
 
     }
 }
