@@ -34,11 +34,11 @@ public class RequestValidationProcessor implements Processor {
             }
         }
 
-        /*
+
         if(restFormInputModel.getDateFrom().getTime() > restFormInputModel.getDateTo().getTime()){
-            throw new RequestValidationException("Start date is bigger than endDate");
+            throw new RequestValidationException("Start date is after endDate");
         }
-        */
+
 
 
 
