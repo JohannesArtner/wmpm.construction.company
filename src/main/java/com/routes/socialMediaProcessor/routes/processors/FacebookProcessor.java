@@ -18,7 +18,7 @@ public class FacebookProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        OfferAcceptionModel oa = (OfferAcceptionModel)exchange.getIn().getBody();
+        //OfferAcceptionModel oa = (OfferAcceptionModel)exchange.getIn().getBody();
 
         //Facebook4J Approach
         String appId = "1556856541283678";
@@ -34,7 +34,7 @@ public class FacebookProcessor implements Processor {
                 .picture(new URL("http://facebook4j.org/images/hero.png"))
                 .name("Facebook4J - A Java library for the Facebook Graph API")
                 .caption("facebook4j.org")
-                .description(oa.getCustomerName() + " // " + oa.getCustomerMail());
+                .description(null);
 
         //Facebook4J Approach
         //facebook.postFeed(post);
