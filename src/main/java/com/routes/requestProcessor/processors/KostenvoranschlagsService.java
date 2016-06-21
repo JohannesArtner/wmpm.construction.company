@@ -58,7 +58,7 @@ public class KostenvoranschlagsService {
     }
 
     public Offer makeForHochbau(Request request) throws Exception {
-        LOG.debug("we are making a Kostenvoranschlag for the Hochbau!");
+        LOG.info("we are making a Kostenvoranschlag for the Hochbau!");
 
         Offer offer = makeOffer(request);
         offer.setDescription(offer.getDescription() + " for Hochbau!!");

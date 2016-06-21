@@ -36,9 +36,13 @@ public class PollRequests extends RouteBuilder {
 
         errorHandler(deadLetterChannel("jms:queue:dead"));
 
-        from("jpa://com.database.projectDB.model.Request?persistenceUnit=camel&consumer.query=select o from Request o").
-                to("direct:processRequest");
 
+        from("jpa://com.database.projectDB.model.Request?persistenceUnit=camel&consumer.query=select o from Request o")
+        //from(consumer)
+                .log("New Request polled from DB: ${body}")
+                .to("direct:processRequest");
+
+        /*
         new Thread(new Runnable(){
             public void run(){
                 while(true) {
@@ -61,7 +65,7 @@ public class PollRequests extends RouteBuilder {
                     }
                 }
             }
-        }).start();
+        }).start();*/
 
     }
 }

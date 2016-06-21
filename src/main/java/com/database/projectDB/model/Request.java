@@ -16,7 +16,7 @@ public class Request {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @JsonProperty("id")
-    private String id;
+    private Long id;
 
     @JsonProperty("clientId")
     private long clientId;
@@ -71,11 +71,11 @@ public class Request {
     public Request() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

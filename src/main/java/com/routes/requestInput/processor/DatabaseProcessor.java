@@ -47,7 +47,10 @@ public class DatabaseProcessor implements Processor {
         Request r = body.getRequest();
         r.setClientId(id);
         logger.info("New Request created: "+r.toString());
-        requestDAO.save(r);
+        requestDAO.saveJPA(r);
+        requestDAO.save(duplicate(r));
+
+
         logger.info("Save complete");
 
 
@@ -58,5 +61,23 @@ public class DatabaseProcessor implements Processor {
             logger.info(rr.toString());
         }
 
+    }
+
+
+
+
+    private Request duplicate(Request r){
+        Request request = new Request();
+        request.setClientId(r.getClientId());
+        request.setDateFrom(r.getDateFrom());
+        request.setDateTo(r.getDateTo());
+        request.setDescription(r.getDescription());
+        request.setEmailCustomer(r.getEmailCustomer());
+        request.setLocation(r.getLocation());
+        request.setSpecializationType(r.getSpecializationType());
+        request.setRead(r.isRead());
+        request.setSquaremeters(r.getSquaremeters());
+        request.setId(r.getId());
+        return request;
     }
 }
