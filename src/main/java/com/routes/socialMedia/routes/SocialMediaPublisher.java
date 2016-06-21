@@ -31,25 +31,26 @@ public class SocialMediaPublisher extends RouteBuilder {
         String twitterRoute = String.format("twitter://timeline/user?consumerKey=%s&consumerSecret=%s&accessToken=%s&accessTokenSecret=%s", twitterConsumerKey, twitterConsumerSecret, twitterAccessToken, twitterAccessTokenSecret);
 
         //errorHandler(deadLetterChannel("jms:queue:dead"));
-
         //onException(Exception.class).to("jms:queue:dead");
 
         from("direct:createSocialMediaPost")
 
 
                 .process(new TwitterProcessor())
-                .log("TWITTER PROCESSOR REACHED")
+                .log("TWITTER PROCESSOR REACHED; Call Twitter Route")
                 .to(twitterRoute)
 
 
                 .process(new FacebookProcessor())
-                .log("FACEBOOK PROCESSOR REACHED")
+                .log("FACEBOOK PROCESSOR REACHED; Call Facebook Route")
+
+                /** Permissions denied. App has to be reviewed by Facebook in order to use the permission "user_posts" to read the posts on a users timeline **/
+                /** To show that the Facebook route is established: Public information is retrieved by SocialMediaReader.java **/
+
+                .to("facebook://postFeed?inBody=postUpdate&oAuthAppId=1556856541283678&oAuthAppSecret=6b5f95106e108e957bf7f2c42b4bd3a9&oAuthAccessToken=EAAWH8ZBkcBV4BAHlZBFbZBoee5tAcgSVCHD5DJnwrJ54eIcxa9ELmWMiRI3b4QXTf0PXE7Ft2nZBFPP1L3hRA5YFQwhc3DyoS96h8SjgYH2lcMk29VMZAk3Yg0WxtPDGEtZBAZBMSgSL66akOLkes7OZBXNYEPNKECCuAXrrEktWuQZDZD&oAuthPermissions=publish_actions")
                 .onException(Exception.class)
                 .process(new ErrorProcessor())
-                .handled(true)
-
-                .to("facebook://postFeed?inBody=postUpdate&oAuthAppId=1556856541283678&oAuthAppSecret=6b5f95106e108e957bf7f2c42b4bd3a9&oAuthAccessToken=EAAWH8ZBkcBV4BAKjZBuii1T5twxI3d0drQKhUmmLTCyJS3yWkTwtV4cwWQUIzpQJ1uldujvEiSQd4Dxvn4wmEoit98VBIoHh842pulLFoZBMFIR4a8u6LLQldwVSaOid3TTvcEu9mRic3gt0NdaPpqDNZAE1waMe85FJDkTheAZDZD&oAuthPermissions=publish_actions");
-
+                .handled(true);
 
     }
 }

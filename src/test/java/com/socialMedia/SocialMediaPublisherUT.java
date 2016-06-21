@@ -10,6 +10,7 @@ import com.database.employeeDB.model.SpecializationType;
 import com.routes.offerProcessor.model.OfferAcceptionModel;
 import com.routes.requestInput.model.RestFormInputModel;
 import com.routes.requestInput.routes.RouteRequestFormInputToNormalizer;
+import com.routes.socialMedia.processors.TwitterProcessor;
 import com.routes.socialMedia.routes.SocialMediaPublisher;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Produce;
@@ -70,23 +71,25 @@ public class SocialMediaPublisherUT {
     @Configuration
     public static class ContextConfig extends SingleRouteCamelConfiguration {
         @Bean
-        public RouteBuilder route() {
-            return new SocialMediaPublisher();
+        public RouteBuilder route() { return new RouteBuilder() {
+            @Override
+            public void configure() throws Exception {
+                from("direct:createSocialMediaPost")
+                        .process(new TwitterProcessor())
+                        .log("TWITTER PROCESSOR REACHED; Call Twitter Route")
+                        .to("mock:twitter://timeline/user?consumerKey=CrVdcIxI1s9vGo6lYM2AB3icG&consumerSecret=sqnGHKHmFBbtOSB1BwA0Trfiyoi0pSg1bMNUhnOXYEwBeFPuat&accessToken=734281955454427136-tNvFD0XS89Yi0QdSgghCeuuRFyERaOj&accessTokenSecret=rFpmvLGSOd4HCtYlcSfHPUQgrw3SGzbAvv8MM4zkXo1I8");
+            }
+        };
+        }
+        @Bean
+        public TwitterProcessor twitterProcessor() {
+            return new TwitterProcessor();
         }
     }
-
-    String twitterConsumerKey = "CrVdcIxI1s9vGo6lYM2AB3icG";
-    String twitterConsumerSecret = "sqnGHKHmFBbtOSB1BwA0Trfiyoi0pSg1bMNUhnOXYEwBeFPuat";
-    String twitterAccessToken = "734281955454427136-tNvFD0XS89Yi0QdSgghCeuuRFyERaOj";
-    String twitterAccessTokenSecret = "rFpmvLGSOd4HCtYlcSfHPUQgrw3SGzbAvv8MM4zkXo1I8";
-    String twitterRoute = String.format("twitter://timeline/user?consumerKey=%s&consumerSecret=%s&accessToken=%s&accessTokenSecret=%s", twitterConsumerKey, twitterConsumerSecret, twitterAccessToken, twitterAccessTokenSecret);
-
-
 
     private static final String fromEndpoint = "direct:createSocialMediaPost";
     private static final String toMockEnpoint = "mock:twitter://timeline/user?consumerKey=CrVdcIxI1s9vGo6lYM2AB3icG&consumerSecret=sqnGHKHmFBbtOSB1BwA0Trfiyoi0pSg1bMNUhnOXYEwBeFPuat&accessToken=734281955454427136-tNvFD0XS89Yi0QdSgghCeuuRFyERaOj&accessTokenSecret=rFpmvLGSOd4HCtYlcSfHPUQgrw3SGzbAvv8MM4zkXo1I8";
     private static final String toMockErrorEndpoint = "mock:direct:validationError";
-
 
     @EndpointInject(uri = toMockEnpoint)
     protected MockEndpoint resultEndpoint;
@@ -112,9 +115,9 @@ public class SocialMediaPublisherUT {
 
         invalidOA = new OfferAcceptionModelBuilder()
                 .projectId(null)
-                .response("response")
-                .responseNotes("responseNote")
-                .customerName("customerName")
+                .response(null)
+                .responseNotes(null)
+                .customerName(null)
                 .customerMail("customerMail")
                 .projectManagerId("projectManagerId")
                 .build();
@@ -123,17 +126,18 @@ public class SocialMediaPublisherUT {
     @DirtiesContext
     @Test
     public void offerAcception_success() throws Exception {
-        resultEndpoint.expectedBodiesReceived(validOA);
+        resultEndpoint.expectedMessageCount(1);
         template.sendBody(validOA);
         resultEndpoint.assertIsSatisfied();
     }
 
-    /*
     @Test
     @DirtiesContext
-    public void validateFormInput_shouldFail_noEmail() throws Exception {
-        errorEndpoint.expectedBodiesReceived("Invalid Form data: No Email set");
+    public void offerAcception_failure() throws Exception {
+        resultEndpoint.expectedMessageCount(0);
         template.sendBody(invalidOA);
         errorEndpoint.assertIsSatisfied();
-    }*/
+
+
+    }
 }
