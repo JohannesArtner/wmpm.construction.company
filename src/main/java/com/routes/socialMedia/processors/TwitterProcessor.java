@@ -20,7 +20,7 @@ public class TwitterProcessor implements Processor {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
 
-        String out = dateFormat.format(date).toString().concat("; PROJECT" + oa.getProjectId() + " TESTING BY MAX: " + oa.getCustomerName());
+        String out = dateFormat.format(date).toString().concat("; PROJECT" + oa.getProjectId() + "; CUSTOMER: " + oa.getCustomerName());
 
         exchange.getOut().setBody(out);
 
