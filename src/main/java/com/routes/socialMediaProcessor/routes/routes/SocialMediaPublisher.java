@@ -29,6 +29,8 @@ public class SocialMediaPublisher extends RouteBuilder {
 
         errorHandler(deadLetterChannel("jms:queue:dead"));
 
+        onException(Exception.class).to("jms:queue:dead");
+
         from("direct:createSocialMediaPost")
 
                 .process(new TwitterProcessor())
@@ -38,9 +40,9 @@ public class SocialMediaPublisher extends RouteBuilder {
 
                 .process(new FacebookProcessor())
                 .log("FACEBOOK PROCESSOR REACHED")
-                .to("facebook://postFeed?inBody=postUpdate&oAuthAppId=1556856541283678&oAuthAppSecret=6b5f95106e108e957bf7f2c42b4bd3a9&oAuthAccessToken=EAAWH8ZBkcBV4BAIr64UYkDcQJ3QSDEGel3ZCud78ItPi61ENkbK6nQKbsxgd9eFUrLtx9ZAcA882ss3ce7jWlXZBBv29ywmdNv1kXropWSBPiEmmjConR7I1bqK4homPUuZBFv5hSZB2ESOjlIDuZB3bV4in47n6CRZAMBKzEBr5qwZDZD&oAuthPermissions=publish_actions")
+                .to("facebook://postFeed?inBody=postUpdate&oAuthAppId=1556856541283678&oAuthAppSecret=6b5f95106e108e957bf7f2c42b4bd3a9&oAuthAccessToken=EAAWH8ZBkcBV4BAKjZBuii1T5twxI3d0drQKhUmmLTCyJS3yWkTwtV4cwWQUIzpQJ1uldujvEiSQd4Dxvn4wmEoit98VBIoHh842pulLFoZBMFIR4a8u6LLQldwVSaOid3TTvcEu9mRic3gt0NdaPpqDNZAE1waMe85FJDkTheAZDZD&oAuthPermissions=publish_actions");
 
-                .to("jms:queue:dead");
+                //.to("jms:queue:dead");
 
 
     }
