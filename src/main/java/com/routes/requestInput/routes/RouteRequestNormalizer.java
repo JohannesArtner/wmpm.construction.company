@@ -16,7 +16,7 @@ public class RouteRequestNormalizer extends AbstractRestRouteBuilder {
     public void configure() throws Exception {
         onException(NullPointerException.class).process(new ReouteRequestNormalizerFailureHandler()).stop();
         onException(NormalizationException.class).setBody(simple("${exception.message}")).to("direct:normalizationError");
-        from("direct:requestNormalizerQueue").routeId("routeRequestNormalizer")
+        from("seda:requestNormalizerQueue").routeId("routeRequestNormalizer")
                 .log("Starting normalization")
                 .choice()
                     .when(header("origin").isEqualTo("form"))
@@ -28,6 +28,6 @@ public class RouteRequestNormalizer extends AbstractRestRouteBuilder {
                     .end()
                 .log("Finished Normalization of Message")
                 .process(new LoggerProcessor())
-        .to("direct:requestPersistance");
+        .to("seda:requestPersistance");
     }
 }

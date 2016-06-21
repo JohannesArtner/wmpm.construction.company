@@ -18,7 +18,8 @@ public class RouteToDatabase extends AbstractRestRouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:requestPersistance")
+        onException(IllegalArgumentException.class).handled(true).to("file:target/inbox");
+        from("seda:requestPersistance")
                 .log("Persisting Data")
                 .process(databaseProcessor)
             //    .log("wireTap to decision hochbau or tiefbau")

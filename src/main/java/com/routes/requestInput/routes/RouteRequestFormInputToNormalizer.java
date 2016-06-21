@@ -34,7 +34,7 @@ public class RouteRequestFormInputToNormalizer extends AbstractRestRouteBuilder 
                 // If valid set headers
                 .setHeader("origin",constant("form"))
                 .log("Header origin set to 'form'")
-                .to("direct:requestNormalizerQueue");
+                .to("seda:requestNormalizerQueue");
     }
 
 }
