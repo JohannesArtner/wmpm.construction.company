@@ -1,6 +1,8 @@
 # Created by https://www.gitignore.io/api/intellij
 
-#config.properties
+config.properties
+c:/*
+C:/*
 
 ### Intellij ###
 # User-specific stuff:
