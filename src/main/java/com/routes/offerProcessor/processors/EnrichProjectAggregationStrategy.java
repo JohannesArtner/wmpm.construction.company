@@ -27,26 +27,14 @@ public class EnrichProjectAggregationStrategy implements AggregationStrategy {
         /**
          * Append the project managers to the original message
          */
-        logger.info("HELLO TEST");
+        logger.info("ENRICH CONTENT:");
         logger.info("original in: " + original.getIn().toString());
         logger.info("resource in: " + resource.getIn().toString());
 
         OfferAcceptionModel oa = (OfferAcceptionModel)original.getIn().getBody();
         oa.setProjectManagerId(resource.getIn().getBody().toString());
 
-        /*
-        String client = original.getIn().getHeaders().toString();
-        String projectId = originalMessage.split("#")[1];
-        //TODO: might need adjustements depending on test data?
-        //TODO: adjust db models to include:
-        // project ID for project manager// or find by specialization
-        // boolean accepted for projects
-        //ProjectManager projectManager = employeeDAO.findProjectManagerById(Long.parseLong(projectId));
-        //Offer offer = offerDAO.findById(projectId);
-        */
 
-        //Combine original body and resource response
-        //String mergeResult = projectManager.toString() + " # " + offer.toString();
         if (original.getPattern().isOutCapable()) {
             original.getOut().setBody(oa);
         } else {
