@@ -62,6 +62,8 @@ public class IncomingMail extends RouteBuilder {
                     }
                 })
                 .to("seda:requestNormalizerQueue")
+                .otherwise()
+                .to("jms:queue:dead")
                 .end();
     }
 }
