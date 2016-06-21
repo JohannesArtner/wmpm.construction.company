@@ -75,8 +75,16 @@ public class SocialMediaPublisherUT {
         }
     }
 
+    String twitterConsumerKey = "CrVdcIxI1s9vGo6lYM2AB3icG";
+    String twitterConsumerSecret = "sqnGHKHmFBbtOSB1BwA0Trfiyoi0pSg1bMNUhnOXYEwBeFPuat";
+    String twitterAccessToken = "734281955454427136-tNvFD0XS89Yi0QdSgghCeuuRFyERaOj";
+    String twitterAccessTokenSecret = "rFpmvLGSOd4HCtYlcSfHPUQgrw3SGzbAvv8MM4zkXo1I8";
+    String twitterRoute = String.format("twitter://timeline/user?consumerKey=%s&consumerSecret=%s&accessToken=%s&accessTokenSecret=%s", twitterConsumerKey, twitterConsumerSecret, twitterAccessToken, twitterAccessTokenSecret);
+
+
+
     private static final String fromEndpoint = "direct:createSocialMediaPost";
-    private static final String toMockEnpoint = "mock:twitter";
+    private static final String toMockEnpoint = "mock:twitter://timeline/user?consumerKey=CrVdcIxI1s9vGo6lYM2AB3icG&consumerSecret=sqnGHKHmFBbtOSB1BwA0Trfiyoi0pSg1bMNUhnOXYEwBeFPuat&accessToken=734281955454427136-tNvFD0XS89Yi0QdSgghCeuuRFyERaOj&accessTokenSecret=rFpmvLGSOd4HCtYlcSfHPUQgrw3SGzbAvv8MM4zkXo1I8";
     private static final String toMockErrorEndpoint = "mock:direct:validationError";
 
 
