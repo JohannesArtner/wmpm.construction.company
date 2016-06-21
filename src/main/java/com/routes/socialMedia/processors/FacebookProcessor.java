@@ -1,4 +1,4 @@
-package com.routes.socialMediaProcessor.routes.processors;
+package com.routes.socialMedia.processors;
 
 import com.routes.offerProcessor.model.OfferAcceptionModel;
 import facebook4j.*;
