@@ -41,6 +41,7 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String ... args) throws Exception {
 
+        /*
         logger.info("MAKING NEW REQUEST");
         Request r = new Request();
         r.setDateFrom(new Date());
@@ -52,6 +53,7 @@ public class Application implements CommandLineRunner {
 
         requestDAO.save(r);
         logger.info("NEW REQUEST SAVED");
+        */
 
 
         try {

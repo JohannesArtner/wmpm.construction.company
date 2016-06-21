@@ -30,14 +30,15 @@ public class ConstructionDecision extends RouteBuilder {
 
         from("direct:processRequest").process(processor).log("Request received!")
                 .choice()
-                .when(header("constructiontype").isEqualTo("tiefbau"))
-                .log("Tiefbau was found and is now going to be processed!")
-                .to("bean:kostenvoranschlagsService?method=makeForTiefbau(${body})")
-                .when(header("constructiontype").isEqualTo("hochbau"))
-                .log("Hochbau was found and is now going to be processed")
-                .to("bean:kostenvoranschlagsService?method=makeForHochbau(${body})")
-                .otherwise()
-                .log("there is one request which is neither tiefbau nor hochbau!")
-                .to("jms:queue:dead");
+                    .when(header("constructiontype").isEqualTo("tiefbau"))
+                        .log("Tiefbau was found and is now going to be processed!")
+                        .to("bean:kostenvoranschlagsService?method=makeForTiefbau(${body.request})")
+                    .when(header("constructiontype").isEqualTo("hochbau"))
+                        .log("Hochbau was found and is now going to be processed")
+                        .log("Body: ${body}")
+                        .to("bean:kostenvoranschlagsService?method=makeForHochbau(${body})")
+                    .otherwise()
+                        .log("there is one request which is neither tiefbau nor hochbau!")
+                        .to("jms:queue:dead");
     }
 }

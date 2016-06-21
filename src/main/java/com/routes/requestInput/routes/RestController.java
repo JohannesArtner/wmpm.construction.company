@@ -2,6 +2,7 @@ package com.routes.requestInput.routes;
 
 import com.database.clientDB.model.Client;
 import com.database.employeeDB.model.ProjectManager;
+import com.database.projectDB.model.Offer;
 import com.database.projectDB.model.Request;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.routes.requestInput.exception.RequestValidationException;
@@ -41,14 +42,24 @@ public class RestController extends AbstractRestRouteBuilder {
         // /requests
         rest("/requests").description("Request rest service")
                 .consumes("application/json").produces("application/json")
-
                 .post().description("Post request").type(RestFormInputModel.class)
-                .param().name("body").type(body).description("The form input of a request").endParam()
-                .responseMessage().code(200).message("Request created").endResponseMessage()
-                .to("direct:incomingForm")
-
+                    .param().name("body").type(body).description("The form input of a request").endParam()
+                    .responseMessage().code(200).message("Request created").endResponseMessage()
+                    .to("direct:incomingForm")
                 .get().description("Get all Requests").outTypeList(Request.class)
-                .to("mongodb:myDb?database=test&collection=request&operation=findAll");
+                    .to("mongodb:myDb?database=test&collection=request&operation=findAll");
+
+        // /offers
+        rest("/offers").description("Offer rest service")
+                .consumes("application/json").produces("application/json")
+                .get().description("Get all Offers").outTypeList(Offer.class)
+                    .to("mongodb:myDb?database=test&collection=offer&operation=findAll");
+
+        // /projects
+        rest("/projects").description("Project rest service")
+                .consumes("application/json").produces("application/json")
+                .get().description("Get all Projects").outTypeList(Offer.class)
+                    .to("mongodb:myDb?database=test&collection=projects&operation=findAll");
 
 
         // /clients
@@ -56,12 +67,12 @@ public class RestController extends AbstractRestRouteBuilder {
                 .consumes("application/json").produces("application/json")
 
                 .get().description("Get all Clients").outTypeList(Client.class)
-                .to("bean:clientDAO?method=findAll()")
+                    .to("bean:clientDAO?method=findAll()")
 
                 .post().description("Post client").type(RestFormInputModel.class)
-                .param().name("body").type(body).description("Client to save in the DB").endParam()
-                .responseMessage().code(200).message("Client created").endResponseMessage()
-                .to("jpa://com.database.clientDB.model.Client");
+                    .param().name("body").type(body).description("Client to save in the DB").endParam()
+                    .responseMessage().code(200).message("Client created").endResponseMessage()
+                    .to("jpa://com.database.clientDB.model.Client");
 
 
         //Project manager Rest
@@ -69,7 +80,7 @@ public class RestController extends AbstractRestRouteBuilder {
                 .consumes("application/json").produces("application/json")
 
                 .get().description("Get all Clients").outTypeList(ProjectManager.class)
-                .to("bean:employeeDAO?method=findAllProjectManagers()");
+                    .to("bean:employeeDAO?method=findAllProjectManagers()");
 
     }
 }
